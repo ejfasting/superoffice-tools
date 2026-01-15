@@ -1,0 +1,28 @@
+{
+  "name": "superoffice-tools",
+  "displayName": "SuperOffice Tools",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "main": "./src/index.ts",
+  "engines": {
+    "vscode": "^1.107.0"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "dummy.helloWorldTs",
+        "title": "Hello World TS"
+      }
+    ]
+  },
+  "devDependencies": {
+    "@types/vscode": "catalog:",
+    "@types/node": "catalog:"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eivind Fasting",
+  "license": "ISC"
+}

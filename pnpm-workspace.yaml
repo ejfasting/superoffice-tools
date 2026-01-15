@@ -1,0 +1,8 @@
+packages:
+  - 'packages/*'
+
+# Define a catalog of version ranges.
+catalogs:
+  default:
+    "@types/vscode": 1.107.0
+    "@types/node": 22.18.0
