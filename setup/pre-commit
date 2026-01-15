@@ -1,0 +1,20 @@
+#!/bin/sh
+
+echo "Running pre-commit checks..."
+
+# Check if pnpm is available
+if ! command -v pnpm &> /dev/null; then
+    echo "Error: pnpm is not installed"
+    exit 1
+fi
+
+# Run verification
+pnpm run verify
+
+# Capture exit code
+if [ $? -ne 0 ]; then
+    echo "Pre-commit verification failed"
+    exit 1
+fi
+
+echo "Pre-commit checks passed!"
