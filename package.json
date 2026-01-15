@@ -4,7 +4,8 @@
     "lint": "oxlint --type-aware --type-check",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check"
+    "fmt:check": "oxfmt --check",
+    "verify": "pnpm fmt:check && pnpm lint"
   },
   "devDependencies": {
     "@typescript/native-preview": "7.0.0-dev.20260115.1",
