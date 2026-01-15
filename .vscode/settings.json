@@ -3,5 +3,9 @@
     "source.fixAll.oxc": "always"
   },
   "oxc.typeAware": true,
-  "editor.defaultFormatter": "oxc.oxc-vscode"
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "typescript.experimental.useTsgo": true,
+  "oxc.fmt.configPath": ".oxfmtrc.json",
+  "editor.formatOnSave": true,
+  "cSpell.words": ["isnan", "nonconstructor", "oxfmt", "oxlint", "tsgolint", "uninvoked"]
 }
