@@ -2,9 +2,9 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.oxc": "always"
   },
-  "oxc.typeAware": true,
-  "editor.defaultFormatter": "oxc.oxc-vscode",
   "typescript.experimental.useTsgo": true,
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "oxc.typeAware": true,
   "oxc.fmt.configPath": ".oxfmtrc.json",
   "editor.formatOnSave": true,
   "cSpell.words": ["isnan", "nonconstructor", "oxfmt", "oxlint", "tsgolint", "uninvoked"]

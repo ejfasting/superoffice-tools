@@ -119,6 +119,11 @@
     "next": {
       "rootDir": []
     },
+    "react": {
+      "formComponents": [],
+      "linkComponents": [],
+      "version": null
+    },
     "jsdoc": {
       "ignorePrivate": false,
       "ignoreInternal": false,
@@ -137,5 +142,5 @@
     "builtin": true
   },
   "globals": {},
-  "ignorePatterns": ["dist/", "node_modules/"]
+  "ignorePatterns": []
 }
