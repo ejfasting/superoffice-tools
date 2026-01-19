@@ -5,7 +5,9 @@
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
-    "verify": "pnpm fmt:check && pnpm lint"
+    "verify": "pnpm fmt:check && pnpm lint",
+    "compile": "npm run compile --prefix ./packages/vscode-extension",
+    "test": "npm run test --prefix ./packages/vscode-extension"
   },
   "devDependencies": {
     "@typescript/native-preview": "7.0.0-dev.20260115.1",

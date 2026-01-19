@@ -1,0 +1,35 @@
+{
+  "name": "vscode-extension",
+  "displayName": "SuperOffice Tools",
+  "version": "0.0.1",
+  "description": "A Visual Studio Code extension for SuperOffice tools",
+  "license": "ISC",
+  "author": "Eivind Fasting",
+  "publisher": "ejfasting",
+  "main": "./out/extension.js",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "vscode:prepublish": "npm run compile",
+    "watch": "tsc -watch -p ./",
+    "compile": "tsc -p ./",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "catalog:",
+    "@types/node": "catalog:",
+    "@types/vscode": "catalog:",
+    "@vscode/test-cli": "catalog:",
+    "@vscode/test-electron": "catalog:"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "ejfasting.showGreeting",
+        "title": "Hello World TS"
+      }
+    ]
+  },
+  "engines": {
+    "vscode": "^1.107.0"
+  }
+}
