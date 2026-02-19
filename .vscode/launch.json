@@ -17,17 +17,6 @@
       ],
       "outFiles": ["${workspaceFolder}/packages/vscode-extension/out/**/*.js"],
       "preLaunchTask": "compile"
-    },
-    {
-      "name": "Tests",
-      "type": "extensionHost",
-      "request": "launch",
-      "testConfiguration": "${workspaceFolder}/packages/vscode-extension/.vscode-test.mjs",
-      "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}/packages/vscode-extension",
-        "--disable-extensions"
-      ],
-      "preLaunchTask": "compile"
     }
   ]
 }

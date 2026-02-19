@@ -1,5 +1,5 @@
 {
-  "name": "vscode-extension",
+  "name": "superoffice-tools",
   "displayName": "SuperOffice Tools",
   "version": "0.0.1",
   "description": "A Visual Studio Code extension for SuperOffice tools",
@@ -11,24 +11,30 @@
     "preinstall": "npx only-allow pnpm",
     "vscode:prepublish": "npm run compile",
     "watch": "tsc -watch -p ./",
-    "compile": "tsc -p ./",
-    "test": "vscode-test"
+    "compile": "tsc -p ./"
   },
   "devDependencies": {
     "@types/mocha": "catalog:",
     "@types/node": "catalog:",
+    "@types/uuid": "^9.0.5",
     "@types/vscode": "catalog:",
-    "@vscode/test-cli": "catalog:",
-    "@vscode/test-electron": "catalog:"
+    "uuid": "^9.0.1"
   },
   "contributes": {
     "commands": [
       {
         "command": "ejfasting.showGreeting",
         "title": "Hello World TS"
+      },
+      {
+        "command": "ejfasting.authenticate",
+        "title": "Authenticate with SuperOffice"
       }
     ]
   },
+  "activationEvents": [
+    "onUri"
+  ],
   "engines": {
     "vscode": "^1.107.0"
   }
