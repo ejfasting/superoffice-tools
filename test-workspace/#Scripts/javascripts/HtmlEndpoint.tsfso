@@ -1,0 +1,2 @@
+///                 include ts-lib
+context.result.body += myIncludeVar;

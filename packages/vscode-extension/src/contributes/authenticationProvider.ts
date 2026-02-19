@@ -2,33 +2,32 @@ import {
   authentication,
   AuthenticationProvider,
   AuthenticationProviderAuthenticationSessionsChangeEvent,
-  AuthenticationSession,
   commands,
   Disposable,
   EventEmitter,
   ExtensionContext,
   window,
 } from "vscode";
-import { SuoFile } from "../types/suoFile";
-import { IFileSystemService } from "../services/fileSystemService";
-import { IAuthenticationService } from "../services/authenticationService";
-
+import { FileSystemService, IFileSystemService, SuoFile } from "../services/fileSystemService";
+import { AuthenticationService, IAuthenticationService } from "../services/authenticationService";
 import { v4 as uuid } from "uuid";
 import { Token } from "../services/authenticationService.types";
+import { SuperOfficeAuthenticationSession, UserClaims } from "./authenticationProvider.types";
+import { packagePublisher } from "../extension";
 
-interface SuperOfficeAuthenticationSession extends AuthenticationSession {
-  contextIdentifier: string;
-  refreshToken?: string;
-  webApiUri: string;
-  claims: UserClaims;
-  expiresAt?: number;
-}
-
-interface UserClaims {
-  "http://schemes.superoffice.net/identity/ctx": string;
-  "http://schemes.superoffice.net/identity/netserver_url": string;
-  "http://schemes.superoffice.net/identity/webapi_url": string;
-  iss: string;
+export function registerAuthenticationProvider(
+  context: ExtensionContext,
+  fileSystemService: FileSystemService,
+  authenticationService: AuthenticationService,
+) {
+  const authProvider = new SuperOfficeAuthenticationProvider(
+    context,
+    fileSystemService,
+    authenticationService,
+    packagePublisher,
+  );
+  context.subscriptions.push(authProvider);
+  return authProvider;
 }
 
 export class SuperOfficeAuthenticationProvider implements AuthenticationProvider, Disposable {
@@ -46,7 +45,7 @@ export class SuperOfficeAuthenticationProvider implements AuthenticationProvider
     this._disposable = Disposable.from(
       authentication.registerAuthenticationProvider(
         this.packagePublisher.toLowerCase(),
-        this.packagePublisher + ".sessions",
+        this.packagePublisher,
         this,
         {
           supportsMultipleAccounts: false,
@@ -104,7 +103,7 @@ export class SuperOfficeAuthenticationProvider implements AuthenticationProvider
    * @param scopes
    * @returns
    */
-  async getSessions(_scopes?: string[]): Promise<AuthenticationSession[]> {
+  public async getSessions(_scopes?: string[]): Promise<SuperOfficeAuthenticationSession[]> {
     try {
       if (this.currentSession && !this.isSessionExpired(this.currentSession)) {
         return [this.currentSession];
@@ -135,7 +134,7 @@ export class SuperOfficeAuthenticationProvider implements AuthenticationProvider
    * @param scopes
    * @returns
    */
-  async createSession(_scopes: string[]): Promise<SuperOfficeAuthenticationSession> {
+  public async createSession(_scopes: string[]): Promise<SuperOfficeAuthenticationSession> {
     const environment = await this.selectEnvironment();
 
     const tokenInformation = (await this.authenticationService.login(environment)) as Token;
@@ -146,7 +145,7 @@ export class SuperOfficeAuthenticationProvider implements AuthenticationProvider
     const session = this.createSessionObject(userClaims, tokenInformation);
 
     await this.storeSessionData(session);
-    this.setSession(session);
+    await this.setSession(session);
 
     return session;
   }
@@ -165,15 +164,45 @@ export class SuperOfficeAuthenticationProvider implements AuthenticationProvider
    * Remove an existing session
    * @param sessionId
    */
-  async removeSession(_sessionId: string): Promise<void> {
-    throw new Error("Method not implemented.");
+  public async removeSession(sessionId: string): Promise<void> {
+    const sessions = await this.getAllSessions();
+    const [updatedSessions, removedSession] = this.removeSessionById(sessions, sessionId);
+
+    await this.updateStoredSessions(updatedSessions);
+    this.fireSessionChangeEvent(removedSession);
+
+    this.currentSession = undefined;
+    await this.updateContextKey(false);
+  }
+
+  private async getAllSessions(): Promise<SuperOfficeAuthenticationSession[]> {
+    const allSessions = await this.context.secrets.get(
+      `${this.packagePublisher.toLowerCase()}.sessions`,
+    );
+    return allSessions ? JSON.parse(allSessions) : [];
+  }
+
+  private removeSessionById(
+    sessions: SuperOfficeAuthenticationSession[],
+    sessionId: string,
+  ): [SuperOfficeAuthenticationSession[], SuperOfficeAuthenticationSession | undefined] {
+    const sessionIdx = sessions.findIndex((s) => s.id === sessionId);
+    const removedSession = sessionIdx !== -1 ? sessions.splice(sessionIdx, 1)[0] : undefined;
+    return [sessions, removedSession];
+  }
+
+  private async updateStoredSessions(sessions: SuperOfficeAuthenticationSession[]): Promise<void> {
+    await this.context.secrets.store(
+      `${this.packagePublisher.toLowerCase()}.sessions`,
+      JSON.stringify(sessions),
+    );
   }
 
   /**
    * Set the current session and fire the onDidChangeSessions event
    * @param session the session to set as current
    */
-  async setSession(session: SuperOfficeAuthenticationSession): Promise<void> {
+  public async setSession(session: SuperOfficeAuthenticationSession): Promise<void> {
     this.currentSession = session;
     this._onDidChangeSessions.fire({ added: [session], removed: [], changed: [] });
     await this.updateContextKey(true);
@@ -185,6 +214,12 @@ export class SuperOfficeAuthenticationProvider implements AuthenticationProvider
    */
   private async updateContextKey(isAuthenticated: boolean): Promise<void> {
     await commands.executeCommand("setContext", "superoffice.isAuthenticated", isAuthenticated);
+  }
+
+  private fireSessionChangeEvent(removedSession?: SuperOfficeAuthenticationSession): void {
+    if (removedSession) {
+      this._onDidChangeSessions.fire({ added: [], removed: [removedSession], changed: [] });
+    }
   }
 
   /**
@@ -222,6 +257,10 @@ export class SuperOfficeAuthenticationProvider implements AuthenticationProvider
       },
       scopes: [],
     };
+  }
+
+  public getCurrentSession(): SuperOfficeAuthenticationSession | undefined {
+    return this.currentSession;
   }
 
   /**

@@ -2,12 +2,13 @@ import { env, EventEmitter, ProgressLocation, Uri, UriHandler, window, Disposabl
 import { v4 as uuid } from "uuid";
 import * as crypto from "crypto";
 import { PromiseAdapter, promiseFromEvent } from "../utils";
-import { Token, UserClaims } from "./authenticationService.types";
+import { Token } from "./authenticationService.types";
+import { UserClaims } from "../contributes/authenticationProvider.types";
 
 const CLIENT_ID = `1a5764a8090f136cc9d30f381626d5fa`;
 
 export interface IAuthenticationService {
-  login(environment: string): Promise<Token>;
+  login(environment: string): Promise<Token | undefined>;
   getClaimsFromToken(token: string): UserClaims;
 }
 
@@ -23,7 +24,7 @@ export class AuthenticationService implements IAuthenticationService, Disposable
   private _scopes = new Map<string, string[]>();
   private _codeExchangePromises = new Map<
     string,
-    { promise: Promise<string>; cancel: EventEmitter<void> }
+    { promise: Promise<Token>; cancel: EventEmitter<void> }
   >();
   private _uriHandler = new UriEventHandler();
   private _disposable: Disposable;
@@ -46,7 +47,7 @@ export class AuthenticationService implements IAuthenticationService, Disposable
   /**
    * Log in to OpenId Connect
    */
-  public async login(environment: string): Promise<Token> {
+  public async login(environment: string): Promise<Token | undefined> {
     this._environment = environment;
 
     return await window.withProgress<Token>(
@@ -93,7 +94,7 @@ export class AuthenticationService implements IAuthenticationService, Disposable
         try {
           return await Promise.race([
             codeExchangePromise.promise,
-            new Promise<string>((_, reject) => setTimeout(() => reject("Cancelled"), 60000)),
+            new Promise<Token>((_, reject) => setTimeout(() => reject("Cancelled"), 60000)),
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             promiseFromEvent<any, any>(token.onCancellationRequested, (_, __, reject) => {
               reject("User Cancelled");
@@ -127,9 +128,9 @@ export class AuthenticationService implements IAuthenticationService, Disposable
    * @param scopes
    * @returns
    */
-  private handleUri: (scopes: readonly string[]) => PromiseAdapter<Uri, string> =
-    (scopes) => async (uri, resolve, reject) => {
-      const query = new URLSearchParams(uri.fragment);
+  private handleUri: (scopes: readonly string[]) => PromiseAdapter<Uri, Token> =
+    (_scopes) => async (uri, resolve, reject) => {
+      const query = new URLSearchParams(uri.query);
       const code = query.get("code");
       const state = query.get("state");
 
@@ -168,6 +169,8 @@ export class AuthenticationService implements IAuthenticationService, Disposable
         },
       );
 
-      resolve(code);
+      const tokenInformation = (await response.json()) as Token;
+
+      resolve(tokenInformation);
     };
 }

@@ -1,0 +1,14 @@
+var temp = soApi.getDatabaseTableAgent();
+output: JSON;
+var obj2 = 
+{
+    "tableName": "y_dummy",
+    "values": {
+        "x_text": "From typescript"
+        } 
+};
+var result = await temp.insertRowAsync(obj2); //First parameter is table name, the second is id to read. Similar to what you pass inn to the [REST API](https://docs.superoffice.com/en/api/netserver/web-services/howto/custom-objects/rest-get-custom-object-row.html?tabs=DatabaseTableAgent)
+///var result = await temp.readRowAsync("y_dummy", 1); //First parameter is table name, the second is id to read. Similar to what you pass inn to the [REST API](https://docs.superoffice.com/en/api/netserver/web-services/howto/custom-objects/rest-get-custom-object-row.html?tabs=DatabaseTableAgent)
+
+const obj = JSON.stringify(result, null, 2);
+context.result.body = obj;

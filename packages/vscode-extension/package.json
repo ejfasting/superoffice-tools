@@ -14,6 +14,7 @@
     "compile": "tsc -p ./"
   },
   "devDependencies": {
+    "@superoffice/webapi": "catalog:",
     "@types/mocha": "catalog:",
     "@types/node": "catalog:",
     "@types/uuid": "^9.0.5",
@@ -29,8 +30,64 @@
       {
         "command": "ejfasting.authenticate",
         "title": "Authenticate with SuperOffice"
+      },
+      {
+        "command": "ejfasting.script.viewDetails",
+        "title": "View Script Details"
+      },
+      {
+        "command": "ejfasting.script.download",
+        "title": "Download Script"
+      },
+      {
+        "command": "ejfasting.script.downloadFolder",
+        "title": "Download Script Folder"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ejfasting",
+          "title": "SuperOffice",
+          "icon": "/resources/logo.svg"
+        }
+      ]
+    },
+    "views": {
+      "ejfasting": [
+        {
+          "id": "ejfasting.view.scripts",
+          "name": "Scripts",
+          "icon": "/resources/logo.svg"
+        },
+        {
+          "id": "ejfasting.view.extraTables",
+          "name": "Extra Tables Explorer",
+          "icon": "/resources/logo.svg"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "ejfasting.view.scripts",
+        "contents": "You are not logged in to SuperOffice [learn more](https://docs.superoffice.com/).\n[Login](command:ejfasting.authenticate)"
+      }
+    ],
+    "menus": {
+      "view/title": [],
+      "view/item/context": [
+        {
+          "command": "ejfasting.script.download",
+          "group": "0_script",
+          "when": "view == ejfasting.view.scripts && viewItem == script"
+        },
+        {
+          "command": "ejfasting.script.downloadFolder",
+          "group": "0_script",
+          "when": "view == ejfasting.view.scripts && viewItem == folder"
+        }
+      ]
+    }
   },
   "activationEvents": [
     "onUri"

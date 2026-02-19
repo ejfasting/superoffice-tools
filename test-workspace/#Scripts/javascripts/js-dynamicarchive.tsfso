@@ -1,0 +1,50 @@
+/*
+Void getContactUsingDynamicArchive(Integer companyId){      
+    String[] fields;
+    fields.pushBack("contact.contact_id");
+    fields.pushBack("contact.name");
+    
+    NSArchiveOrderByInfo[] sortOrder;
+    
+    NSArchiveRestrictionInfo[] criterias;
+
+    NSArchiveRestrictionInfo select;
+    select.SetName("contact.contact_id");
+    select.SetOperator("equals");
+    String[] selectValues;
+    selectValues.pushBack(companyId.toString());
+    select.SetValues(selectValues);
+    criterias.pushBack(select);
+    
+    String[] entities;
+    entities.pushBack("");
+    
+    NSArchiveAgent agent;
+    NSArchiveListItem[] result = agent.GetArchiveListByColumns("dynamic", fields, sortOrder, criterias, entities, 0, 100);
+    
+    foreach (NSArchiveListItem i in result) {
+        Map col = i.GetColumnData();
+        col.first();
+        while (!col.eof()) {
+            print(col.getKey() + ": " + col.getVal() + "\n");
+            col.next();
+        }
+    }
+}
+ */
+
+
+const agent = soApi.getArchiveAgent();
+var result = await agent.getArchiveListByColumns2Async(
+                "dynamic",
+                "contact.contact_id,contact.name,contact.category_idx",
+                "contact.name",
+                "contact.contact_id eq 5",
+                "",
+                0,
+                10
+            );
+
+const obj = JSON.stringify(result, null, 2);
+context.result.body = obj;
+
