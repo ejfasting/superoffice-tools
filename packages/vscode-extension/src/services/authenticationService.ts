@@ -5,7 +5,6 @@ import { PromiseAdapter, promiseFromEvent } from "../utils";
 import { Token, UserClaims } from "./authenticationService.types";
 
 const CLIENT_ID = `1a5764a8090f136cc9d30f381626d5fa`;
-const REDIRECT_URI = `ejfasting.vscode-extension`;
 
 export interface IAuthenticationService {
   login(environment: string): Promise<Token>;
@@ -30,7 +29,7 @@ export class AuthenticationService implements IAuthenticationService, Disposable
   private _disposable: Disposable;
 
   get redirectUri() {
-    return `${env.uriScheme}://${REDIRECT_URI}`;
+    return `https://ejfasting.github.io/superoffice-tools/`;
   }
 
   constructor() {
