@@ -27,6 +27,7 @@ export class AuthenticationService implements IAuthenticationService, Disposable
   >();
   private _uriHandler = new UriEventHandler();
   private _disposable: Disposable;
+  private _environment: string = "";
 
   get redirectUri() {
     return `https://ejfasting.github.io/superoffice-tools/`;
@@ -46,6 +47,8 @@ export class AuthenticationService implements IAuthenticationService, Disposable
    * Log in to OpenId Connect
    */
   public async login(environment: string): Promise<Token> {
+    this._environment = environment;
+
     return await window.withProgress<Token>(
       {
         location: ProgressLocation.Notification,
@@ -76,7 +79,7 @@ export class AuthenticationService implements IAuthenticationService, Disposable
         ]);
 
         const uri = Uri.parse(
-          `https://${environment}.superoffice.com/login/common/oauth/authorize?${searchParams.toString()}`,
+          `https://${this._environment}.superoffice.com/login/common/oauth/authorize?${searchParams.toString()}`,
         );
 
         await env.openExternal(uri);
@@ -127,15 +130,21 @@ export class AuthenticationService implements IAuthenticationService, Disposable
   private handleUri: (scopes: readonly string[]) => PromiseAdapter<Uri, string> =
     (scopes) => async (uri, resolve, reject) => {
       const query = new URLSearchParams(uri.fragment);
-      const access_token = query.get("access_token");
+      const code = query.get("code");
       const state = query.get("state");
 
-      if (!access_token) {
-        reject(window.showErrorMessage("No access token received"));
+      if (!code) {
+        reject(window.showErrorMessage("No code received"));
         return;
       }
       if (!state) {
         reject(window.showErrorMessage("No state received"));
+        return;
+      }
+
+      const codeVerifier = this._codeVerifiers.get(state);
+      if (!codeVerifier) {
+        reject(new Error("No code verifier"));
         return;
       }
 
@@ -145,6 +154,20 @@ export class AuthenticationService implements IAuthenticationService, Disposable
         return;
       }
 
-      resolve(access_token);
+      const body = `client_id=${CLIENT_ID}&code=${code}&grant_type=authorization_code&redirect_uri=${this.redirectUri}&code_verifier=${codeVerifier}`;
+
+      const response = await fetch(
+        `https://${this._environment}.superoffice.com/login/common/oauth/tokens`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Accept: "application/json",
+          },
+          body,
+        },
+      );
+
+      resolve(code);
     };
 }

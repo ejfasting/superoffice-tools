@@ -31,7 +31,14 @@
   <body>
     <h1>SuperOffice Tools</h1>
     <script>
-      window.location.href = "vscode://ejfasting.superoffice-tools/";
+      const params = new URLSearchParams(window.location.search);
+      const state = params.get("state");
+      const code = params.get("code");
+      const query = new URLSearchParams();
+      if (state) query.set("state", state);
+      if (code) query.set("code", code);
+      const qs = query.toString();
+      window.location.href = "vscode://ejfasting.superoffice-tools/" + (qs ? "?" + qs : "");
     </script>
   </body>
 </html>
