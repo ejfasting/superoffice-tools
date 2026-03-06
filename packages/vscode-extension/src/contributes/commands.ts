@@ -2,7 +2,6 @@ import { authentication, commands, window, SourceControlResourceState } from "vs
 import { packagePublisher } from "../extension";
 import { SuperOfficeAuthenticationSession } from "../providers/authenticationProvider.types";
 import { ArchiveListItem } from "@superoffice/webapi";
-import { HttpService } from "../services/httpService";
 import { Node } from "../providers/scriptTreeDataProvider";
 import { ScriptService } from "../services/scriptService";
 import { IScmService } from "../services/scmService";
@@ -17,7 +16,6 @@ export enum Commands {
 }
 
 export async function registerCommands(
-  httpService: HttpService,
   scriptService: ScriptService,
   scriptSourceControlService: IScmService,
 ) {
