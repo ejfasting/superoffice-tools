@@ -158,6 +158,7 @@ export class ScmService implements IScmService {
     this._sourceControl.dispose();
     this._changesGroup.dispose();
     this._disposables.forEach((d) => d.dispose());
+    this.scmTextDocumentContentProvider.dispose();
   }
 
   private _scheduleRefresh(): void {
