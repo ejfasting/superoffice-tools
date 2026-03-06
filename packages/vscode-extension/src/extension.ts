@@ -27,7 +27,7 @@ export async function activate(context: ExtensionContext) {
     authenticationService,
   );
 
-  await registerCommands(httpService, scriptService, scmService);
+  await registerCommands(scriptService, scmService);
   const { scriptTreeDataProvider, extraTablesTreeDataProvider } = registerViews(
     context,
     authProvider,
