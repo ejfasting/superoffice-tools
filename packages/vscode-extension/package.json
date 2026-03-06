@@ -83,7 +83,7 @@
     },
     "viewsWelcome": [
       {
-        "view": "ejfasting.view.scripts",
+        "view": "ejfasting.view.empty",
         "when": "!superoffice.isAuthenticated",
         "contents": "You are not logged in to SuperOffice [learn more](https://docs.superoffice.com/).\n[Login](command:ejfasting.authenticate)"
       }
