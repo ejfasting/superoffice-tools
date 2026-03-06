@@ -34,7 +34,6 @@ export async function activate(context: ExtensionContext) {
 
   authProvider.onDidChangeSessions(() => {
     webApi = null; // Clear cached WebApi instance on session change
-    window.showInformationMessage("Authentication session changed. Refreshing views...");
     webApi = setupWebApi(authProvider.getCurrentSession()!);
     scriptTreeDataProvider.refresh();
     extraTablesTreeDataProvider.refresh();

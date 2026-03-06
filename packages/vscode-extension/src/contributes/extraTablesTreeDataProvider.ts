@@ -6,6 +6,8 @@ import {
   EventEmitter,
   Event,
   ExtensionContext,
+  window,
+  ProgressLocation,
 } from "vscode";
 import { SuperOfficeAuthenticationProvider } from "./authenticationProvider";
 import { IHttpService } from "../services/httpService";
@@ -57,66 +59,67 @@ export class ExtraTablesTreeDataProvider implements TreeDataProvider<ExtraTables
 
     const currentSession = this.authProvider.getCurrentSession();
     if (currentSession) {
-      try {
-        const archiveListItems = await this.httpService.getExtraTables();
+      return await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Fetching extra tables...",
+          cancellable: false,
+        },
+        async (_progress) => {
+          const archiveListItems = await this.httpService.getExtraTables();
 
-        // Group archiveListItems by property "extra_tables.table_name"
-        const groupedTables = new Map<string, ArchiveListItem[]>();
-        archiveListItems.forEach((item) => {
-          if (item.columnData && item.columnData["extra_tables.table_name"]) {
-            const tableName = item.columnData["extra_tables.table_name"].displayValue as string;
-            if (!groupedTables.has(tableName)) {
-              groupedTables.set(tableName, []);
+          // Group archiveListItems by property "extra_tables.table_name"
+          const groupedTables = new Map<string, ArchiveListItem[]>();
+          archiveListItems.forEach((item) => {
+            if (item.columnData && item.columnData["extra_tables.table_name"]) {
+              const tableName = item.columnData["extra_tables.table_name"].displayValue as string;
+              if (!groupedTables.has(tableName)) {
+                groupedTables.set(tableName, []);
+              }
+              groupedTables.get(tableName)!.push(item);
             }
-            groupedTables.get(tableName)!.push(item);
-          }
-        });
-
-        const tableNodes: ExtraTablesNode[] = [];
-        groupedTables.forEach((tableItems, tableName) => {
-          const fieldNodes = tableItems.map((item) => {
-            if (!item.columnData) {
-              return new ExtraTablesNode("", undefined, new ThemeIcon("symbol-field"));
-            }
-
-            const typeNode = new ExtraTablesNode(
-              "type: " +
-                (item.columnData["extra_tables.(extra_fields->extra_table).type"].displayValue ||
-                  ""),
-              undefined,
-              new ThemeIcon("symbol-property"),
-            );
-
-            const descriptionNode = new ExtraTablesNode(
-              "description: " +
-                (item.columnData["extra_tables.(extra_fields->extra_table).description"]
-                  .displayValue || ""),
-              undefined,
-              new ThemeIcon("symbol-property"),
-            );
-
-            return new ExtraTablesNode(
-              item.columnData["extra_tables.(extra_fields->extra_table).field_name"].displayValue ||
-                "",
-              [typeNode, descriptionNode],
-              new ThemeIcon("symbol-field"),
-            );
           });
 
-          // Create parent node for the table
-          const tableNode = new ExtraTablesNode(tableName, fieldNodes, new ThemeIcon("database"));
+          const tableNodes: ExtraTablesNode[] = [];
+          groupedTables.forEach((tableItems, tableName) => {
+            const fieldNodes = tableItems.map((item) => {
+              if (!item.columnData) {
+                return new ExtraTablesNode("", undefined, new ThemeIcon("symbol-field"));
+              }
 
-          tableNodes.push(tableNode);
-        });
+              const typeNode = new ExtraTablesNode(
+                "type: " +
+                  (item.columnData["extra_tables.(extra_fields->extra_table).type"].displayValue ||
+                    ""),
+                undefined,
+                new ThemeIcon("symbol-property"),
+              );
 
-        return tableNodes;
-      } catch (err) {
-        if (err instanceof Error) {
-          throw new Error(err.message);
-        } else {
-          throw new Error(String(err));
-        }
-      }
+              const descriptionNode = new ExtraTablesNode(
+                "description: " +
+                  (item.columnData["extra_tables.(extra_fields->extra_table).description"]
+                    .displayValue || ""),
+                undefined,
+                new ThemeIcon("symbol-property"),
+              );
+
+              return new ExtraTablesNode(
+                item.columnData["extra_tables.(extra_fields->extra_table).field_name"]
+                  .displayValue || "",
+                [typeNode, descriptionNode],
+                new ThemeIcon("symbol-field"),
+              );
+            });
+
+            // Create parent node for the table
+            const tableNode = new ExtraTablesNode(tableName, fieldNodes, new ThemeIcon("database"));
+
+            tableNodes.push(tableNode);
+          });
+
+          return tableNodes;
+        },
+      );
     }
     return [];
   }
