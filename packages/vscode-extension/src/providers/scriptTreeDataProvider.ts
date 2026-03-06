@@ -8,11 +8,13 @@ import {
   EventEmitter,
   Event,
   ExtensionContext,
+  window,
+  ProgressLocation,
 } from "vscode";
 import { SuperOfficeAuthenticationProvider } from "./authenticationProvider";
 import { IHttpService } from "../services/httpService";
 import { ArchiveListItem } from "@superoffice/webapi";
-import { Commands } from "./commands";
+import { Commands } from "../contributes/commands";
 
 interface TreeDataItem {
   label: string;
@@ -75,22 +77,22 @@ export class ScriptTreeDataProvider implements TreeDataProvider<Node> {
       return element.children || [];
     }
     const currentSession = this.authProvider.getCurrentSession();
-    //Check if user is logged in
     if (currentSession) {
-      try {
-        const archiveListItems: ArchiveListItem[] = await this.httpService.fetchAllScriptData();
-        const root: TreeDataItem = { label: "Root", children: [] };
-        archiveListItems.forEach((listItem) =>
-          this.addToTreeData(root, listItem.columnData?.["path"]?.displayValue ?? "", listItem),
-        );
-        return root.children.map(this.convertTreeDataToNode);
-      } catch (err) {
-        if (err instanceof Error) {
-          throw new Error(err.message);
-        } else {
-          throw new Error(String(err));
-        }
-      }
+      return await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Fetching scripts...",
+          cancellable: false,
+        },
+        async (_progress) => {
+          const archiveListItems: ArchiveListItem[] = await this.httpService.fetchAllScriptData();
+          const root: TreeDataItem = { label: "Root", children: [] };
+          archiveListItems.forEach((listItem) =>
+            this.addToTreeData(root, listItem.columnData?.["path"]?.displayValue ?? "", listItem),
+          );
+          return root.children.map(this.convertTreeDataToNode);
+        },
+      );
     }
     return [];
   }

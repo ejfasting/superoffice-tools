@@ -2,8 +2,9 @@ import { ArchiveListItem } from "@superoffice/webapi";
 
 import { TextDocument, Uri, window, workspace, WorkspaceEdit, Position } from "vscode";
 import { IFileSystemService } from "./fileSystemService";
-import { Node } from "../contributes/scriptTreeDataProvider";
+import { Node } from "../providers/scriptTreeDataProvider";
 import { IHttpService } from "./httpService";
+import { IScmService } from "./scmService";
 
 export interface IScriptService {
   viewScriptDetails(params: ArchiveListItem): Promise<void>;
@@ -19,6 +20,7 @@ export class ScriptService implements IScriptService {
   constructor(
     private readonly httpService: IHttpService,
     private readonly fileSystemService: IFileSystemService,
+    private readonly scriptSourceControlService: IScmService,
   ) {}
 
   /**
@@ -59,6 +61,7 @@ export class ScriptService implements IScriptService {
       params.archiveListItem?.primaryKey ?? 0,
     );
     const filePath = await this.fileSystemService.writeScriptToFile(scriptEntity, params);
+    await this.scriptSourceControlService.trackScript(filePath, scriptEntity.sourceCode ?? "");
 
     const document = await workspace.openTextDocument(filePath);
     await window.showTextDocument(document);

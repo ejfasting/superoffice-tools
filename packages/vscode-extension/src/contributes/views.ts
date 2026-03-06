@@ -1,8 +1,8 @@
 import { ExtensionContext, window } from "vscode";
-import { ScriptTreeDataProvider } from "./scriptTreeDataProvider";
-import { SuperOfficeAuthenticationProvider } from "./authenticationProvider";
+import { ScriptTreeDataProvider } from "../providers/scriptTreeDataProvider";
+import { SuperOfficeAuthenticationProvider } from "../providers/authenticationProvider";
 import { HttpService } from "../services/httpService";
-import { ExtraTablesTreeDataProvider } from "./extraTablesTreeDataProvider";
+import { ExtraTablesTreeDataProvider } from "../providers/extraTablesTreeDataProvider";
 
 export enum Views {
   ScriptExplorer = "ejfasting.view.scripts",

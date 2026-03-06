@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 import * as crypto from "crypto";
 import { PromiseAdapter, promiseFromEvent } from "../utils";
 import { Token } from "./authenticationService.types";
-import { UserClaims } from "../contributes/authenticationProvider.types";
+import { UserClaims } from "../providers/authenticationProvider.types";
 
 const CLIENT_ID = `1a5764a8090f136cc9d30f381626d5fa`;
 

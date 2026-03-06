@@ -24,10 +24,6 @@
   "contributes": {
     "commands": [
       {
-        "command": "ejfasting.showGreeting",
-        "title": "Hello World TS"
-      },
-      {
         "command": "ejfasting.authenticate",
         "title": "Authenticate with SuperOffice"
       },
@@ -42,6 +38,16 @@
       {
         "command": "ejfasting.script.downloadFolder",
         "title": "Download Script Folder"
+      },
+      {
+        "command": "ejfasting.scm.discardChanges",
+        "title": "Discard Changes",
+        "icon": "$(discard)"
+      },
+      {
+        "command": "ejfasting.scm.openFile",
+        "title": "Open File",
+        "icon": "$(go-to-file)"
       }
     ],
     "viewsContainers": {
@@ -58,18 +64,27 @@
         {
           "id": "ejfasting.view.scripts",
           "name": "Scripts",
-          "icon": "/resources/logo.svg"
+          "icon": "/resources/logo.svg",
+          "when": "superoffice.isAuthenticated"
         },
         {
           "id": "ejfasting.view.extraTables",
           "name": "Extra Tables Explorer",
-          "icon": "/resources/logo.svg"
+          "icon": "/resources/logo.svg",
+          "when": "superoffice.isAuthenticated"
+        },
+        {
+          "id": "ejfasting.view.empty",
+          "name": "Empty View",
+          "icon": "/resources/logo.svg",
+          "when": "!superoffice.isAuthenticated"
         }
       ]
     },
     "viewsWelcome": [
       {
-        "view": "ejfasting.view.scripts",
+        "view": "ejfasting.view.empty",
+        "when": "!superoffice.isAuthenticated",
         "contents": "You are not logged in to SuperOffice [learn more](https://docs.superoffice.com/).\n[Login](command:ejfasting.authenticate)"
       }
     ],
@@ -85,6 +100,30 @@
           "command": "ejfasting.script.downloadFolder",
           "group": "0_script",
           "when": "view == ejfasting.view.scripts && viewItem == folder"
+        }
+      ],
+      "scm/resourceState/context": [
+        {
+          "command": "ejfasting.scm.discardChanges",
+          "group": "inline",
+          "when": "scmProvider == superoffice"
+        },
+        {
+          "command": "ejfasting.scm.openFile",
+          "group": "inline",
+          "when": "scmProvider == superoffice"
+        }
+      ],
+      "scm/resourceState/inline": [
+        {
+          "command": "ejfasting.scm.discardChanges",
+          "group": "inline",
+          "when": "scmProvider == superoffice"
+        },
+        {
+          "command": "ejfasting.scm.openFile",
+          "group": "inline",
+          "when": "scmProvider == superoffice"
         }
       ]
     }
