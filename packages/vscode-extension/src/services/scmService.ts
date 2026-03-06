@@ -167,7 +167,7 @@ export class ScmService implements IScmService {
     this._debounceTimer = setTimeout(() => void this._refresh(), 300);
   }
 
-  /** Computes the SHA1 hex digest of a string, matching Git's blob hashing. */
+  /** Computes the SHA1 hex digest of the given string content (UTF-8). */
   private _computeSha1(content: string): string {
     return createHash("sha1").update(content, "utf8").digest("hex");
   }
