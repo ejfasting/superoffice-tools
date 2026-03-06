@@ -8,7 +8,6 @@ import { ScriptService } from "../services/scriptService";
 import { IScmService } from "../services/scmService";
 
 export enum Commands {
-  ShowGreeting = "ejfasting.showGreeting",
   Authenticate = "ejfasting.authenticate",
   ViewScriptDetails = "ejfasting.script.viewDetails",
   DownloadScript = "ejfasting.script.download",

@@ -24,10 +24,6 @@
   "contributes": {
     "commands": [
       {
-        "command": "ejfasting.showGreeting",
-        "title": "Hello World TS"
-      },
-      {
         "command": "ejfasting.authenticate",
         "title": "Authenticate with SuperOffice"
       },
