@@ -7,5 +7,14 @@
   "oxc.typeAware": true,
   "oxc.fmt.configPath": ".oxfmtrc.json",
   "editor.formatOnSave": true,
-  "cSpell.words": ["isnan", "nonconstructor", "oxfmt", "oxlint", "tsgolint", "uninvoked"]
+  "cSpell.words": [
+    "isnan",
+    "nonconstructor",
+    "oxfmt",
+    "oxfmtrc",
+    "oxlint",
+    "oxlintrc",
+    "tsgolint",
+    "uninvoked"
+  ]
 }

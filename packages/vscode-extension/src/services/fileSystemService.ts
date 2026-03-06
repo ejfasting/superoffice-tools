@@ -2,11 +2,8 @@ import { Uri, workspace, window, FileSystemError } from "vscode";
 import { posix } from "path";
 import { IFileSystemHandler } from "../handlers/fileSystemHandler";
 import { CRMScriptEntity, ScriptType } from "@superoffice/webapi";
-import { Node } from "../contributes/scriptTreeDataProvider";
-
-export type SuoFile = {
-  contextIdentifier: string;
-};
+import { Node } from "../providers/scriptTreeDataProvider";
+import { SuoFile } from "./fileSystemService.types";
 
 export interface IFileSystemService {
   readSuoFile(): Promise<SuoFile | undefined>;

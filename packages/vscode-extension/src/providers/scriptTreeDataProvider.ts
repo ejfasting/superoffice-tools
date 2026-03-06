@@ -14,7 +14,7 @@ import {
 import { SuperOfficeAuthenticationProvider } from "./authenticationProvider";
 import { IHttpService } from "../services/httpService";
 import { ArchiveListItem } from "@superoffice/webapi";
-import { Commands } from "./commands";
+import { Commands } from "../contributes/commands";
 
 interface TreeDataItem {
   label: string;
