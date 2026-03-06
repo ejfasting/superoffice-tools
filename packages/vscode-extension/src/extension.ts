@@ -38,10 +38,15 @@ export async function activate(context: ExtensionContext) {
    * This is called whenever the authentication session changes. It clears the cached WebApi instance and sets up a new one with the current session. It also refreshes the script and extra tables tree data providers to reflect any changes.
    */
   authProvider.onDidChangeSessions(() => {
-    webApi = null; // Clear cached WebApi instance on session change
-    webApi = setupWebApi(authProvider.getCurrentSession()!);
     scriptTreeDataProvider.refresh();
     extraTablesTreeDataProvider.refresh();
+
+    webApi = null; // Clear cached WebApi instance on session change
+    const currentSession = authProvider.getCurrentSession();
+    if (!currentSession) {
+      return;
+    }
+    webApi = setupWebApi(currentSession);
   });
 }
 
