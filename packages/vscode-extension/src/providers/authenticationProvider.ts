@@ -49,7 +49,12 @@ export class SuperOfficeAuthenticationProvider implements AuthenticationProvider
    * @returns true if the session is expired, false otherwise
    */
   private isSessionExpired(session: SuperOfficeAuthenticationSession): boolean {
-    return session.expiresAt! < Date.now();
+    const expiresAt = session.expiresAt;
+    if (typeof expiresAt !== "number") {
+      // Treat sessions without a valid expiresAt as expired/invalid
+      return true;
+    }
+    return expiresAt < Date.now();
   }
 
   /**
