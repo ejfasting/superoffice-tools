@@ -14,6 +14,7 @@ export async function registerSourceControl(
   context.subscriptions.push(
     workspace.registerTextDocumentContentProvider(ORIGINAL_SCHEME, scmTextDocumentContentProvider),
   );
+  context.subscriptions.push(scmTextDocumentContentProvider);
 
   const scmService = new ScmService(fileSystemHandler, scmTextDocumentContentProvider);
   context.subscriptions.push(scmService);
