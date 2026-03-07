@@ -1,46 +1,66 @@
-# SuperOffice Tools VS Code Extension
+# superoffice-tools (monorepo)
 
-A Visual Studio Code extension providing tools for working with Scripts and ExtraTables in SuperOffice.
+This repository contains tooling for SuperOffice, including a VS Code extension located in `packages/vscode-extension`.
 
-## Features
+If you’re looking for end-user documentation (features, commands, usage), see:
+- `packages/vscode-extension/README.md`
 
-- Authenticate with SuperOffice directly from VS Code
+## Prerequisites
 
-### Scripts
+- Node.js (a recent LTS is recommended)
+- pnpm
 
-- Browse and view SuperOffice scripts
-- Download scripts and folders
+This repo enforces pnpm usage (`only-allow pnpm`).
 
-### ExtraTables
+## Install
 
-- Browse and view ExtraTables
+From the repository root:
 
-## Installation
+1. Install dependencies:
 
-1. Ensure you have [VS Code](https://code.visualstudio.com/) installed.
-2. Install the extension from the marketplace (or build locally):
-   - Clone this repository
-   - Run `pnpm install` in the root directory
-   - Launch VS Code and use `F5` to start in Extension Development mode
+   pnpm install
 
-## Usage
+## Repository layout
 
-- Use the command palette (`Ctrl+Shift+P`) to access:
-  - Authenticate with SuperOffice
-  - View Script Details
-  - Download Script
-- Explore scripts and tables in the sidebar views
+- `packages/vscode-extension` — the VS Code extension package
 
-## Development
+## Develop the VS Code extension
 
-- Use `pnpm` for dependency management
-- Run `pnpm run watch` for live compilation
-- Main extension code is in [packages/vscode-extension/src/extension.ts](packages/vscode-extension/src/extension.ts)
+### Run / debug in VS Code
+
+1. Open this repo in VS Code
+2. Run `pnpm install` (from the repo root)
+3. Start the extension in an Extension Development Host:
+   - Use the VS Code Run and Debug view and start the extension, or
+   - Press `F5`
+
+The extension entrypoint is:
+- `packages/vscode-extension/src/extension.ts`
+
+### Watch / compile
+
+Watch mode (TypeScript):
+
+- pnpm --dir packages/vscode-extension run watch
+
+Compile once:
+
+- pnpm --dir packages/vscode-extension run compile
+
+## Quality checks
+
+From the repository root:
+
+- pnpm run verify
+
+This runs formatting and linting as configured in the root `package.json`.
 
 ## Contributing
 
-Pull requests and issues are welcome! Please follow standard coding conventions and ensure all code is well-documented.
+Pull requests and issues are welcome. Please:
+- keep changes focused
+- run `pnpm run verify` before submitting
 
 ## License
 
-This project is licensed under the ISC License.
+ISC (see package manifests for details).
