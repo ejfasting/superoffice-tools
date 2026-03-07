@@ -3,6 +3,7 @@
 This repository contains tooling for SuperOffice, including a VS Code extension located in `packages/vscode-extension`.
 
 If you’re looking for end-user documentation (features, commands, usage), see:
+
 - `packages/vscode-extension/README.md`
 
 ## Prerequisites
@@ -35,6 +36,7 @@ From the repository root:
    - Press `F5`
 
 The extension entrypoint is:
+
 - `packages/vscode-extension/src/extension.ts`
 
 ### Watch / compile
@@ -58,6 +60,7 @@ This runs formatting and linting as configured in the root `package.json`.
 ## Contributing
 
 Pull requests and issues are welcome. Please:
+
 - keep changes focused
 - run `pnpm run verify` before submitting
 
