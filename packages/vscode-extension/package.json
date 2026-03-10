@@ -1,7 +1,7 @@
 {
   "name": "superoffice-tools",
   "displayName": "SuperOffice Tools",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Visual Studio Code extension for SuperOffice tools",
   "license": "ISC",
   "author": "Eivind Fasting",
