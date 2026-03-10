@@ -10,3 +10,4 @@ catalogs:
     "glob": 13.0.0
     "@types/glob": 9.0.0
     "@superoffice/webapi": 11.7.727
+    "esbuild": 0.25.0
