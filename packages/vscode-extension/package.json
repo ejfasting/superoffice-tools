@@ -21,7 +21,8 @@
     "bundle": "pnpm run check-types && node esbuild.js --production",
     "package": "pnpm vsce package --no-dependencies",
     "publish": "pnpm vsce publish --no-dependencies",
-    "publish:minor": "pnpm vsce publish minor --no-dependencies"
+    "publish:minor": "pnpm vsce publish minor --no-dependencies",
+    "publish:patch": "pnpm vsce publish patch --no-dependencies"
   },
   "devDependencies": {
     "@superoffice/webapi": "catalog:",

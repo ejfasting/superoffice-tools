@@ -1,3 +1,4 @@
+// oxlint-disable typescript/no-unsafe-assignment
 const esbuild = require("esbuild");
 
 const production = process.argv.includes("--production");

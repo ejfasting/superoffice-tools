@@ -10,7 +10,8 @@
     "test": "pnpm -C ./packages/vscode-extension run test",
     "vscode:package": "pnpm -C ./packages/vscode-extension run package",
     "vscode:publish": "pnpm -C ./packages/vscode-extension run publish",
-    "vscode:publish:minor": "pnpm -C ./packages/vscode-extension run publish:minor"
+    "vscode:publish:minor": "pnpm -C ./packages/vscode-extension run publish:minor",
+    "vscode:publish:patch": "pnpm -C ./packages/vscode-extension run publish:patch"
   },
   "devDependencies": {
     "@typescript/native-preview": "7.0.0-dev.20260115.1",
