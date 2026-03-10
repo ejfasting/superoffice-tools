@@ -2,9 +2,11 @@
 
 SuperOffice Tools adds a dedicated SuperOffice view container to VS Code and provides commands for authenticating and working with Scripts and Extra Tables in SuperOffice.
 
+> [!NOTE] Works towards SOD and is under development, suggestions welcome!
+
 ## Getting started
 
-1. Open the SuperOffice conrainer in the Activity bar and click login.
+1. Open the SuperOffice container in the Activity bar and click login.
 2. After authenticating Treeviews with scripts and extratables will appear.
 
 ## VS Code contributions
