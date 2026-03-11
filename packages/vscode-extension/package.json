@@ -13,7 +13,7 @@
   "main": "./dist/extension.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "check-types": "tsc --noEmit",
+    "check-types": "tsgo --noEmit",
     "watch": "pnpm-run-all -p watch:*",
     "watch:esbuild": "node esbuild.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
