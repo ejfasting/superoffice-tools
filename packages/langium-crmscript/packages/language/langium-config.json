@@ -1,0 +1,22 @@
+{
+  "projectName": "Crmscript",
+  "languages": [
+    {
+      "id": "crmscript-definition",
+      "grammar": "src/crmscript-definition.langium",
+      "fileExtensions": [".crmscript-definition"],
+      "textMate": {
+        "out": "syntaxes/crmscript-definition.tmLanguage.json"
+      }
+    },
+    {
+      "id": "crmscript",
+      "grammar": "src/crmscript-implementation.langium",
+      "fileExtensions": [".crmscript"],
+      "textMate": {
+        "out": "syntaxes/crmscript.tmLanguage.json"
+      }
+    }
+  ],
+  "out": "src/generated"
+}
