@@ -1,0 +1,76 @@
+{
+  "name": "vscode-langium-crmscript",
+  "displayName": "langium-crmscript",
+  "version": "0.0.1",
+  "description": "The extension specific package",
+  "categories": [
+    "Programming Languages"
+  ],
+  "type": "module",
+  "main": "./out/extension/main.cjs",
+  "scripts": {
+    "clean": "shx rm -fr *.tsbuildinfo out syntaxes",
+    "vscode:prepublish": "npm run build",
+    "build:prepare": "shx mkdir -p ./syntaxes/ && shx cp -f ../language/syntaxes/crmscript.tmLanguage.json ./syntaxes/crmscript.tmLanguage.json",
+    "build": "npm run build:prepare && tsc -b tsconfig.json && node esbuild.mjs",
+    "build:clean": "npm run clean && npm run build",
+    "watch": "npm run build:prepare && concurrently -n tsc,esbuild -c blue,yellow \"tsc -b tsconfig.json --watch\" \"node esbuild.mjs --watch\""
+  },
+  "dependencies": {
+    "crmscript-language": "0.0.1",
+    "vscode-languageclient": "~9.0.1",
+    "vscode-languageserver": "~9.0.1"
+  },
+  "devDependencies": {
+    "@types/vscode": "~1.67.0",
+    "concurrently": "~8.2.1",
+    "esbuild": "~0.25.5"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "crmscript",
+        "aliases": [
+          "crmscript",
+          "crmscript"
+        ],
+        "extensions": [
+          ".crmscript"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "crmscript-definition",
+        "aliases": [
+          "crmscript-definition",
+          "crmscript-definition"
+        ],
+        "extensions": [
+          ".crmscript-definition"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "crmscript",
+        "scopeName": "source.crmscript",
+        "path": "syntaxes/crmscript.tmLanguage.json"
+      },
+      {
+        "language": "crmscript-definition",
+        "scopeName": "source.crmscript-definition",
+        "path": "syntaxes/crmscript-definition.tmLanguage.json"
+      }
+    ]
+  },
+  "activationEvents": [
+    "onLanguage:crmscript"
+  ],
+  "engines": {
+    "vscode": "^1.67.0"
+  },
+  "vsce": {
+    "dependencies": false
+  }
+}

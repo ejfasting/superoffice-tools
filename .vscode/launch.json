@@ -17,6 +17,21 @@
       ],
       "outFiles": ["${workspaceFolder}/packages/vscode-extension/dist/**/*.js"],
       "preLaunchTask": "watch"
+    },
+    {
+      "name": "Run langium",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}/packages/langium-crmscript/packages/extension",
+        "--disable-extensions",
+        "--folder-uri=${workspaceRoot}/test-workspace"
+      ],
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/packages/langium-crmscript/packages/language/out/**/*.js",
+        "${workspaceFolder}/packages/langium-crmscript/packages/extension/out/**/*.js"
+      ]
     }
   ]
 }
