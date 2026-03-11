@@ -4,7 +4,9 @@
     "vscode:publish": "pnpm -C ./packages/vscode-extension run publish",
     "vscode:publish:minor": "pnpm -C ./packages/vscode-extension run publish:minor",
     "vscode:publish:patch": "pnpm -C ./packages/vscode-extension run publish:patch",
-    "prepare": "vp config"
+    "prepare": "vp config",
+    "langium:generate": "pnpm run -C ./packages/language langium:generate",
+    "langium:build": "pnpm run -C ./packages/language build"
   },
   "devDependencies": {
     "@typescript/native-preview": "7.0.0-dev.20260115.1",

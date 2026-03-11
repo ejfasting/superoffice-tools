@@ -4,9 +4,9 @@ import {
   LangiumDocument,
   LangiumDocumentFactory,
   LangiumSharedCoreServices,
+  URI,
 } from "langium";
 import { WorkspaceFolder } from "vscode-languageserver";
-import { URI } from "vscode-uri";
 import { builtins } from "./builtins.js";
 export class CrmscriptWorkspaceManager extends DefaultWorkspaceManager {
   private documentFactory: LangiumDocumentFactory;
