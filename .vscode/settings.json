@@ -2,7 +2,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.oxc": "always"
   },
-  "typescript.experimental.useTsgo": true,
+  "js/ts.experimental.useTsgo": true,
   "editor.defaultFormatter": "oxc.oxc-vscode",
   "oxc.typeAware": true,
   "oxc.fmt.configPath": ".oxfmtrc.json",

@@ -1,16 +1,18 @@
 packages:
-  - "packages/*"
+  - packages/*
 
-# Define a catalog of version ranges.
 catalogs:
   default:
-    "@types/vscode": 1.107.0
-    "@types/node": 22.18.0
-    "@types/mocha": 10.0.10
-    "glob": 13.0.0
-    "@types/glob": 9.0.0
     "@superoffice/webapi": 11.7.727
-    "esbuild": 0.25.0
-    "vitest": 4.0.18
+    "@types/glob": 9.0.0
+    "@types/mocha": 10.0.10
+    "@types/node": 22.18.0
+    "@types/vscode": 1.107.0
     "@vitest/coverage-v8": 4.0.18,
-    "vscode-languageserver": 9.0.1
+    esbuild: 0.25.0
+    glob: 13.0.0
+    vitest: 4.0.18
+    vscode-languageserver: 9.0.1
+
+overrides:
+  crmscript-language: link:packages/language

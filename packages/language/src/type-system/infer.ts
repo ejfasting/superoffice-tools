@@ -43,7 +43,7 @@ export function inferType(
   node: AstNode | undefined,
   cache: Map<AstNode, TypeDescription>,
 ): TypeDescription {
-  let type: TypeDescription;
+  let type: TypeDescription | undefined = undefined;
   if (!node) {
     return createErrorType("Could not infer type for undefined", node);
   }

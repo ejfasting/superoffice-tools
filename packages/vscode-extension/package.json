@@ -10,7 +10,7 @@
     "url": "https://github.com/ejfasting/superoffice-tools.git"
   },
   "publisher": "ejfasting",
-  "main": "./dist/extension.js",
+  "main": "./out/extension.cjs",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "check-types": "tsgo --noEmit",
@@ -24,6 +24,12 @@
     "publish:minor": "pnpm vsce publish minor --no-dependencies",
     "publish:patch": "pnpm vsce publish patch --no-dependencies"
   },
+  "dependencies": {
+    "crmscript-language": "0.0.1",
+    "langium": "~4.2.0",
+    "vscode-languageclient": "~9.0.1",
+    "vscode-languageserver": "~9.0.1"
+  },
   "devDependencies": {
     "@superoffice/webapi": "catalog:",
     "@types/mocha": "catalog:",
@@ -35,6 +41,42 @@
     "uuid": "^9.0.1"
   },
   "contributes": {
+    "languages": [
+      {
+        "id": "crmscript",
+        "extensions": [
+          ".crmscript"
+        ],
+        "configuration": "./syntaxes/crmscript-language-configuration.json",
+        "icon": {
+          "light": "/resources/logo.svg",
+          "dark": "/resources/logo.svg"
+        }
+      },
+      {
+        "id": "crmscript-definition",
+        "extensions": [
+          ".crmscript-definition"
+        ],
+        "configuration": "./syntaxes/crmscript-language-configuration.json",
+        "icon": {
+          "light": "/resources/logo.svg",
+          "dark": "/resources/logo.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "crmscript",
+        "scopeName": "source.crmscript",
+        "path": "./syntaxes/crmscript.tmLanguage.json"
+      },
+      {
+        "language": "crmscript-definition",
+        "scopeName": "source.crmscript-definition",
+        "path": "./syntaxes/crmscript-definition.tmLanguage.json"
+      }
+    ],
     "commands": [
       {
         "command": "ejfasting.authenticate",

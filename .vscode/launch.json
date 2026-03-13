@@ -15,7 +15,10 @@
         "--disable-extensions",
         "--folder-uri=${workspaceRoot}/test-workspace"
       ],
-      "outFiles": ["${workspaceFolder}/packages/vscode-extension/dist/**/*.js"],
+      "outFiles": [
+        "${workspaceFolder}/packages/vscode-extension/out/**/*.cjs",
+        "${workspaceFolder}/packages/language/out/**/*.cjs"
+      ],
       "preLaunchTask": "watch"
     },
     {

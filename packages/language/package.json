@@ -24,7 +24,7 @@
   },
   "scripts": {
     "clean": "shx rm -fr *.tsbuildinfo out",
-    "build": "tsgo -b tsconfig.json",
+    "build": "tsc -b tsconfig.json",
     "build:clean": "npm run clean && npm run build",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -43,6 +43,6 @@
   },
   "engines": {
     "node": ">=20.10.0",
-    "npm": ">=10.2.3"
+    "pnpm": ">=10.2.3"
   }
 }

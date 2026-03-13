@@ -21,6 +21,7 @@ function createFakeClass(name: string): Class {
     name,
     constructors: [],
     members: [],
+    $container: {} as Class["$container"],
   } as Class;
 }
 

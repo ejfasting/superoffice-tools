@@ -1,4 +1,8 @@
 {
+  "workspaces": [
+    "packages/language",
+    "packages/vscode-extension"
+  ],
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "lint": "oxlint --type-aware --type-check",
@@ -6,15 +10,14 @@
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "verify": "pnpm fmt:check && pnpm lint",
-    "compile": "pnpm -C ./packages/vscode-extension run compile",
     "test": "pnpm -C ./packages/vscode-extension run test",
+    "vscode:bundle": "pnpm -C ./packages/vscode-extension run bundle",
     "vscode:package": "pnpm -C ./packages/vscode-extension run package",
     "vscode:publish": "pnpm -C ./packages/vscode-extension run publish",
     "vscode:publish:minor": "pnpm -C ./packages/vscode-extension run publish:minor",
     "vscode:publish:patch": "pnpm -C ./packages/vscode-extension run publish:patch",
     "langium:generate": "pnpm run -C ./packages/language langium:generate",
-    "langium:build": "pnpm run -C ./packages/language build",
-    "langium:buildtsgo": "pnpm run -C ./packages/language buildtsgo"
+    "langium:build": "pnpm run -C ./packages/language build"
   },
   "devDependencies": {
     "@typescript/native-preview": "7.0.0-dev.20260115.1",

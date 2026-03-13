@@ -6,14 +6,18 @@ const watch = process.argv.includes("--watch");
 
 async function main() {
   const ctx = await esbuild.context({
-    entryPoints: ["src/extension.ts"],
+    entryPoints: ["src/extension.ts", "src/language/main.ts"],
     bundle: true,
     format: "cjs",
+    target: "ES2017",
     minify: production,
     sourcemap: !production,
-    sourcesContent: false,
+    // To prevent confusing node, we explicitly use the `.cjs` extension
+    outExtension: {
+      ".js": ".cjs",
+    },
     platform: "node",
-    outfile: "dist/extension.js",
+    outdir: "out",
     external: ["vscode"],
     logLevel: "warning",
     plugins: [
