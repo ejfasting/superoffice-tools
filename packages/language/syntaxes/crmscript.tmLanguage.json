@@ -1,9 +1,7 @@
 {
   "name": "crmscript",
   "scopeName": "source.crmscript",
-  "fileTypes": [
-    ".crmscript"
-  ],
+  "fileTypes": [".crmscript"],
   "patterns": [
     {
       "include": "#comments"
