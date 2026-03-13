@@ -70,11 +70,11 @@ export const CrmscriptModule: Module<
  * @param context Optional module context with the LSP connection
  * @returns An object wrapping the shared services and the language-specific services
  */
-export function createCrmscriptServices(context: DefaultSharedModuleContext): {
+export async function createCrmscriptServices(context: DefaultSharedModuleContext): Promise<{
   shared: LangiumSharedServices;
   Definition: CrmscriptServices;
   Implementation: CrmscriptServices;
-} {
+}> {
   const shared = inject(
     createDefaultSharedModule(context),
     CrmscriptGeneratedSharedModule,
@@ -96,7 +96,7 @@ export function createCrmscriptServices(context: DefaultSharedModuleContext): {
   if (!context.connection) {
     // We don't run inside a language server
     // Therefore, initialize the configuration provider instantly
-    shared.workspace.ConfigurationProvider.initialized({});
+    await shared.workspace.ConfigurationProvider.initialized({});
   }
   return { shared, Definition, Implementation };
 }

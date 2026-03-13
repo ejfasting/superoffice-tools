@@ -1,14 +1,8 @@
 packages:
-  - "packages/*"
+  - packages/*
 
-# Define a catalog of version ranges.
 catalogs:
   default:
-    "@types/vscode": 1.107.0
-    "@types/node": 22.18.0
-    "@types/mocha": 10.0.10
-    "glob": 13.0.0
-    "@types/glob": 9.0.0
     "@superoffice/webapi": 11.7.727
     vite: npm:@voidzero-dev/vite-plus-core@0.1.21
     vitest: npm:@voidzero-dev/vite-plus-test@0.1.21
