@@ -3,11 +3,13 @@
  * DO NOT EDIT MANUALLY!
  ******************************************************************************/
 
-import type { Grammar } from 'langium';
-import { loadGrammarFromJson } from 'langium';
+import type { Grammar } from "langium";
+import { loadGrammarFromJson } from "langium";
 
 let loadedCrmscriptDefinitionGrammar: Grammar | undefined;
-export const CrmscriptDefinitionGrammar = (): Grammar => loadedCrmscriptDefinitionGrammar ?? (loadedCrmscriptDefinitionGrammar = loadGrammarFromJson(`{
+export const CrmscriptDefinitionGrammar = (): Grammar =>
+  loadedCrmscriptDefinitionGrammar ??
+  (loadedCrmscriptDefinitionGrammar = loadGrammarFromJson(`{
   "$type": "Grammar",
   "isDeclared": true,
   "name": "CrmscriptDefinition",
@@ -2619,7 +2621,9 @@ export const CrmscriptDefinitionGrammar = (): Grammar => loadedCrmscriptDefiniti
 }`));
 
 let loadedCrmscriptImplementationGrammar: Grammar | undefined;
-export const CrmscriptImplementationGrammar = (): Grammar => loadedCrmscriptImplementationGrammar ?? (loadedCrmscriptImplementationGrammar = loadGrammarFromJson(`{
+export const CrmscriptImplementationGrammar = (): Grammar =>
+  loadedCrmscriptImplementationGrammar ??
+  (loadedCrmscriptImplementationGrammar = loadGrammarFromJson(`{
   "$type": "Grammar",
   "isDeclared": true,
   "name": "CrmscriptImplementation",

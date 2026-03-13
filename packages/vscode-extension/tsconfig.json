@@ -4,13 +4,11 @@
     "rootDir": "src",
     "outDir": "out"
   },
-  "include": [
-    "src/**/*.ts"
-],
-"exclude": ["node_modules", "test"],
- "references": [
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "test"],
+  "references": [
     {
-        "path": "../language/tsconfig.json"
+      "path": "../language/tsconfig.json"
     }
-  ],
+  ]
 }

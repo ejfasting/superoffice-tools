@@ -1,9 +1,7 @@
 {
   "name": "crmscript-definition",
   "scopeName": "source.crmscript-definition",
-  "fileTypes": [
-    ".crmscript-definition"
-  ],
+  "fileTypes": [".crmscript-definition"],
   "patterns": [
     {
       "include": "#comments"
