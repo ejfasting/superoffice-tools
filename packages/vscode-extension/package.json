@@ -12,13 +12,9 @@
   "publisher": "ejfasting",
   "main": "./dist/extension.js",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "check-types": "tsc --noEmit",
-    "watch": "pnpm-run-all -p watch:*",
-    "watch:esbuild": "node esbuild.js --watch",
-    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "watch": "vp pack --watch --sourcemap",
     "vscode:prepublish": "pnpm run bundle",
-    "bundle": "pnpm run check-types && node esbuild.js --production",
+    "bundle": "vp pack --minify",
     "package": "pnpm vsce package --no-dependencies",
     "publish": "pnpm vsce publish --no-dependencies",
     "publish:minor": "pnpm vsce publish minor --no-dependencies",
@@ -30,8 +26,6 @@
     "@types/node": "catalog:",
     "@types/uuid": "^9.0.5",
     "@types/vscode": "1.107.0",
-    "esbuild": "catalog:",
-    "npm-run-all": "^4.1.5",
     "uuid": "^9.0.1"
   },
   "contributes": {

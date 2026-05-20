@@ -17,21 +17,23 @@ Apply the [general copilot instructions](./global-copilot-instructions.md) to al
 
 Monorepo containing:
 
-1. vscode-extension - Core functionality in vscode
+1. vscode-extension - Core functionality in VS Code
+2. language - Reserved package folder (currently empty)
 
-**Type:** Monorepo (pnpm workspace) | **Languages:** TypeScript | **Frameworks:** VS Code Extension API | **Size:** | **Runtime:** Node.js 22.x | **Package Manager:** pnpm 10.x (REQUIRED) | **Linting:** Oxlint | **CI:** GitHub Actions (test + lint on push/PR to main/develop) | **Code Style:** oxfmt | **Documentation:** README.md + in-code comments
+**Type:** Monorepo (pnpm workspace) | **Languages:** TypeScript | **Frameworks:** VS Code Extension API | **Toolchain:** Vite+ (`vp`) | **Runtime:** Node.js 22.x | **Package Manager:** pnpm (workspace) | **Lint/Format/Type Check:** `vp check` | **CI:** GitHub Actions (`vp install` + `vp check` on push/PR) | **Documentation:** README.md + in-code comments
 
 ## Build & Test Requirements
 
 ### Prerequisites
 
-- **Node.js:** 22.x | **pnpm:** 10.x (install: `npm install -g pnpm@10`)
-- **Critical:** ONLY pnpm works - npm/yarn will fail due to workspace config and preinstall hooks
+- **Vite+ CLI (`vp`)**
+- **Node.js:** 22.x
+- **pnpm:** Workspace package manager used by Vite+
 
 ### Installation
 
 ```bash
-pnpm install  # ALWAYS run first
+vp install  # ALWAYS run first
 ```
 
 ### Build Process
@@ -39,21 +41,20 @@ pnpm install  # ALWAYS run first
 1. **Build vscode-extension**:
 
    ```bash
-   pnpm run compile  # Outputs to {workspaceFolder}/packages/vscode-extension/out/
+   cd packages/vscode-extension
+   vp pack --minify  # Outputs bundle to dist/
    ```
 
 2. **CI Build Sequence:**
    ```bash
-   pnpm install --frozen-lockfile
-   pnpm run lint --deny-warnings
-   pnpm run fmt:check
+   vp install
+   vp check
    ```
 
 ### Linting
 
 ```bash
-pnpm run lint --deny-warnings  # Treat warnings as errors
-pnpm run fmt:check
+vp check
 ```
 
 ## Project Structure
@@ -61,10 +62,14 @@ pnpm run fmt:check
 ### Monorepo Layout
 
 ```
-├── .github/workflows/ci.yml    # CI: lint + formatting jobs
-├── packages/                   # 1 packages
+├── .github/workflows/ci.yml   # CI: vp install + vp check
+├── package.json               # Root scripts and Vite+ setup
+├── pnpm-workspace.yaml        # Workspace and dependency catalogs
+├── vite.config.ts             # Root Vite+ check/fmt/lint config
+├── packages/
 │   ├── vscode-extension/      # Core extension (auth, tree view, commands)
-├── .oxfmtrc.json, .oxlintrc.json, pnpm-workspace.yaml, .gitignore
+│   └── language/              # Reserved package folder (currently empty)
+├── test-workspace/            # Manual test fixtures for extension behavior
 ```
 
 ### Package Details
@@ -78,34 +83,34 @@ Authentication, script browsing and download for SuperOffice.
 
 ## CI/CD Pipeline
 
-`.github/workflows/ci.yml` runs on push/PR to `main`, `develop`:
+`.github/workflows/ci.yml` runs on push to `main` and on pull requests:
 
-- **Test install Job:** pnpm@10 + Node 22.x → `pnpm install --frozen-lockfile`
-- **Lint Job:** pnpm@10 + Node 22.x → `pnpm run lint --deny-warnings` → `pnpm eslint .`
-- **Formatting Job:** pnpm@10 + Node 22.x → `pnpm run fmt:check`
+- **CI job:** Vite+ environment setup → `vp install` → `vp check`
 
 ## Common Issues
 
-1. **pnpm not found:** Install globally: `npm install -g pnpm@8`
+1. **vp not found:** Install Vite+ CLI and verify with `vp --version`
+2. **pnpm mismatch:** Use the package manager version declared in root `package.json`
 
 ## Development Workflow
 
-1. `pnpm install`
+1. `vp install`
 2. Make code changes
-3. Run `pnpm run lint` and `pnpm run fmt:check`
+3. Run `vp check` and `vp test`
 4. Debug via `.vscode/launch.json` configs: "vscode-extension"
 
 **Rules:**
 
 - ❌ Don't edit `dist/` or `out/` (build outputs)
+- ❌ Don't edit `dist/` (build output)
 - ✅ Add explicit return types to functions
-- ✅ Run `pnpm run lint` and `pnpm run fmt:check` before committing
+- ✅ Run `vp check` and `vp test` before committing
 
 ## Pre-Commit Checklist
 
-1. ✅ `pnpm install` (if dependencies changed)
-2. ✅ `pnpm run lint` and `pnpm run fmt:check` (no NEW errors; 22 pre-existing OK)
-3. ✅ Verify `dist/`/`out/` outputs exist
+1. ✅ `vp install` (if dependencies changed)
+2. ✅ `vp check` and `vp test`
+3. ✅ Verify `dist/` output exists when relevant
 4. ✅ Don't commit generated files or build artifacts
 
 **Trust these instructions** - Only explore further if information is incomplete or incorrect.

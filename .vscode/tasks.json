@@ -3,38 +3,33 @@
   "tasks": [
     {
       "label": "watch",
-      "dependsOn": ["npm: watch:tsc", "npm: watch:esbuild"],
-      "presentation": {
-        "reveal": "never"
+      "type": "shell",
+      "command": "vp pack --watch --sourcemap",
+      "options": {
+        "cwd": "${workspaceFolder}/packages/vscode-extension"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "tsdown",
+        "pattern": {
+          "regexp": "^(.*):(\\d+):(\\d+):\\s+(error|warning):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Build start",
+          "endsPattern": "Rebuilt in"
+        }
       },
       "group": {
         "kind": "build",
         "isDefault": true
-      }
-    },
-    {
-      "type": "npm",
-      "script": "watch:esbuild",
-      "path": "packages/vscode-extension/",
-      "group": "build",
-      "problemMatcher": "$esbuild-watch",
-      "isBackground": true,
-      "label": "npm: watch:esbuild",
+      },
       "presentation": {
-        "group": "watch",
-        "reveal": "never"
-      }
-    },
-    {
-      "type": "npm",
-      "script": "watch:tsc",
-      "path": "packages/vscode-extension/",
-      "group": "build",
-      "problemMatcher": "$tsc-watch",
-      "isBackground": true,
-      "label": "npm: watch:tsc",
-      "presentation": {
-        "group": "watch",
         "reveal": "never"
       }
     }

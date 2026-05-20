@@ -10,4 +10,16 @@ catalogs:
     "glob": 13.0.0
     "@types/glob": 9.0.0
     "@superoffice/webapi": 11.7.727
-    "esbuild": 0.25.0
+    vite: npm:@voidzero-dev/vite-plus-core@0.1.21
+    vitest: npm:@voidzero-dev/vite-plus-test@0.1.21
+    vite-plus: 0.1.21
+overrides:
+  vite: "catalog:"
+  vitest: "catalog:"
+peerDependencyRules:
+  allowAny:
+    - vite
+    - vitest
+  allowedVersions:
+    vite: "*"
+    vitest: "*"
