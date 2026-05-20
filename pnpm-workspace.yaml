@@ -1,6 +1,9 @@
 packages:
   - "packages/*"
 
+allowBuilds:
+  esbuild: true
+
 # Define a catalog of version ranges.
 catalogs:
   default:
@@ -11,3 +14,16 @@ catalogs:
     "@types/glob": 9.0.0
     "@superoffice/webapi": 11.7.727
     "esbuild": 0.25.0
+    vite: npm:@voidzero-dev/vite-plus-core@latest
+    vitest: npm:@voidzero-dev/vite-plus-test@latest
+    vite-plus: latest
+overrides:
+  vite: "catalog:"
+  vitest: "catalog:"
+peerDependencyRules:
+  allowAny:
+    - vite
+    - vitest
+  allowedVersions:
+    vite: "*"
+    vitest: "*"
