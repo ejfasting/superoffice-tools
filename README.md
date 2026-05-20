@@ -1,68 +1,98 @@
-# superoffice-tools (monorepo)
+# superoffice-tools
 
-This repository contains tooling for SuperOffice, including a VS Code extension located in `packages/vscode-extension`.
+Monorepo for SuperOffice developer tooling, currently centered on the VS Code extension in `packages/vscode-extension`.
 
-If you’re looking for end-user documentation (features, commands, usage), see:
+For extension usage and feature documentation, see `packages/vscode-extension/README.md`.
 
-- `packages/vscode-extension/README.md`
+## Toolchain
+
+This repository uses **Vite+** as the unified toolchain.
+
+- Primary CLI: `vp`
+- Linting/formatting/checks: `vp check`
+- Build/pack workflows: `vp pack`
+- Testing: `vp test`
+
+Vite+ wraps and coordinates tools such as tsdown, Oxlint, and Oxfmt.
 
 ## Prerequisites
 
-- Node.js (a recent LTS is recommended)
-- pnpm
-
-This repo enforces pnpm usage (`only-allow pnpm`).
+- Vite+ CLI (`vp`)
+- Node.js (managed or used by Vite+ setup)
+- pnpm (workspace package manager)
 
 ## Install
 
-From the repository root:
+Run from repository root:
 
-1. Install dependencies:
+```bash
+vp install
+```
 
-   pnpm install
+## Common commands
 
-## Repository layout
+Run from repository root unless noted.
 
-- `packages/vscode-extension` — the VS Code extension package
+```bash
+vp check
+vp test
+```
+
+For package-specific scripts, use Vite+ script runner:
+
+```bash
+vp run <script>
+```
+
+Examples:
+
+```bash
+vp run vscode:package
+```
 
 ## Develop the VS Code extension
 
-### Run / debug in VS Code
+1. Install dependencies with `vp install`.
+2. Start watch build for the extension:
 
-1. Open this repo in VS Code
-2. Run `pnpm install` (from the repo root)
-3. Start the extension in an Extension Development Host:
-   - Use the VS Code Run and Debug view and start the extension, or
-   - Press `F5`
+   ```bash
+   cd packages/vscode-extension
+   vp pack --watch --sourcemap
+   ```
 
-The extension entrypoint is:
+3. Launch extension debugging in VS Code (Run and Debug or `F5`).
 
-- `packages/vscode-extension/src/extension.ts`
+Extension entry point: `packages/vscode-extension/src/extension.ts`.
 
-### Watch / compile
+## Repository structure
 
-Watch mode (TypeScript):
+```text
+.
+|- package.json
+|- pnpm-workspace.yaml
+|- vite.config.ts
+|- packages/
+|  |- vscode-extension/     # VS Code extension source and packaging
+|  |  |- src/
+|  |  |- resources/
+|  |  |- package.json
+|  |- language/             # Reserved package folder (currently empty)
+|- test-workspace/          # Local workspace for manual extension testing
+```
 
-- pnpm --dir packages/vscode-extension run watch
+## CI
 
-Compile once:
+CI runs the Vite+ workflow:
 
-- pnpm --dir packages/vscode-extension run compile
-
-## Quality checks
-
-From the repository root:
-
-- pnpm run verify
-
-This runs formatting and linting as configured in the root `package.json`.
+```bash
+vp install
+vp check
+```
 
 ## Contributing
 
-Pull requests and issues are welcome. Please:
-
-- keep changes focused
-- run `pnpm run verify` before submitting
+- Keep changes focused and scoped.
+- Run `vp check` and `vp test` before opening a PR.
 
 ## License
 
