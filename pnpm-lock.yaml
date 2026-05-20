@@ -16,12 +16,12 @@ catalogs:
       specifier: 22.18.0
       version: 22.18.0
     vite-plus:
-      specifier: latest
+      specifier: 0.1.21
       version: 0.1.21
 
 overrides:
-  vite: npm:@voidzero-dev/vite-plus-core@latest
-  vitest: npm:@voidzero-dev/vite-plus-test@latest
+  vite: npm:@voidzero-dev/vite-plus-core@0.1.21
+  vitest: npm:@voidzero-dev/vite-plus-test@0.1.21
 
 importers:
 
