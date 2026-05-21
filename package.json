@@ -3,6 +3,7 @@
     "packages/language",
     "packages/vscode-extension"
   ],
+  "type": "module",
   "scripts": {
     "vscode:bundle": "pnpm run -C ./packages/vscode-extension bundle",
     "vscode:package": "pnpm -C ./packages/vscode-extension run package",
