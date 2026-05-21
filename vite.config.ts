@@ -5,7 +5,10 @@ export default defineConfig({
     "*": "vp check --fix",
   },
   fmt: {
-    ignorePatterns: [],
+    ignorePatterns: [
+      "packages/language/syntaxes/*.tmLanguage.json",
+      "packages/vscode-extension/syntaxes/*.tmLanguage.json",
+    ],
   },
   lint: {
     plugins: ["unicorn", "typescript", "oxc"],
