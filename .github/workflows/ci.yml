@@ -17,6 +17,6 @@ jobs:
           cache: true
 
       - run: vp install
-      - run: vp run langium:generate
+      - run: vp run langium:bundle
       - run: vp check
       - run: vp test
