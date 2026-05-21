@@ -154,4 +154,7 @@ export default defineConfig({
       typeCheck: true,
     },
   },
+  test: {
+    include: ["packages/language/test/**/*.test.ts"],
+  },
 });

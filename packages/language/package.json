@@ -3,41 +3,36 @@
   "version": "0.0.1",
   "description": "The language specific package",
   "files": [
-    "out",
+    "dist",
     "src"
   ],
   "type": "module",
-  "main": "./out/index.js",
-  "module": "./out/index.js",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
   "typesVersions": {
     "*": {
       ".": [
-        "out/index"
+        "dist/index"
       ]
     }
   },
   "exports": {
     ".": {
-      "types": "./out/index.d.ts",
-      "default": "./out/index.js"
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
     }
   },
   "scripts": {
-    "clean": "shx rm -fr *.tsbuildinfo out",
-    "build": "tsc -b tsconfig.json",
-    "build:clean": "npm run clean && npm run build",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
     "langium:generate": "langium generate",
-    "langium:watch": "langium generate --watch"
+    "langium:watch": "langium generate --watch",
+    "bundle": "vp run langium:generate && vp pack --sourcemap"
   },
   "dependencies": {
     "langium": "~4.2.0"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "4.0.18",
     "langium-cli": "~4.2.0",
+    "typescript": "catalog:",
     "vitest": "catalog:",
     "vscode-languageserver": "catalog:"
   },

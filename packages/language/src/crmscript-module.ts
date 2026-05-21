@@ -12,7 +12,7 @@ import {
   CrmscriptGeneratedSharedModule,
   CrmscriptImplementationGeneratedModule,
 } from "./generated/module.js";
-import { CrmscriptValidator } from "./crmscript-validator.js";
+import { CrmscriptValidator, registerValidationChecks } from "./crmscript-validator.js";
 import { CrmscriptWorkspaceManager } from "./builtin/workspaceManager.js";
 export type CrmscriptSharedServices = LangiumSharedServices;
 
@@ -90,9 +90,10 @@ export async function createCrmscriptServices(context: DefaultSharedModuleContex
     CrmscriptImplementationGeneratedModule,
     CrmscriptModule,
   );
+  registerValidationChecks(Definition);
+  registerValidationChecks(Implementation);
   shared.ServiceRegistry.register(Definition);
   shared.ServiceRegistry.register(Implementation);
-  //registerValidationChecks(Crmscript);
   if (!context.connection) {
     // We don't run inside a language server
     // Therefore, initialize the configuration provider instantly

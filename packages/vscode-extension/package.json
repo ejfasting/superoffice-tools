@@ -10,7 +10,7 @@
     "url": "https://github.com/ejfasting/superoffice-tools.git"
   },
   "publisher": "ejfasting",
-  "main": "./out/extension.cjs",
+  "main": "./dist/extension.js",
   "scripts": {
     "watch": "vp pack --watch --sourcemap",
     "vscode:prepublish": "pnpm run bundle",
@@ -21,17 +21,17 @@
     "publish:patch": "pnpm vsce publish patch --no-dependencies"
   },
   "dependencies": {
-    "crmscript-language": "0.0.1",
+    "crmscript-language": "workspace:*",
     "langium": "~4.2.0",
-    "vscode-languageclient": "~9.0.1",
-    "vscode-languageserver": "~9.0.1"
+    "vscode-languageclient": "catalog:",
+    "vscode-languageserver": "catalog:"
   },
   "devDependencies": {
     "@superoffice/webapi": "catalog:",
     "@types/mocha": "catalog:",
     "@types/node": "catalog:",
     "@types/uuid": "^9.0.5",
-    "@types/vscode": "1.107.0",
+    "@types/vscode": "catalog:",
     "uuid": "^9.0.1"
   },
   "contributes": {
@@ -178,6 +178,7 @@
     }
   },
   "activationEvents": [
+    "onFileSystem:builtins",
     "onUri"
   ],
   "engines": {

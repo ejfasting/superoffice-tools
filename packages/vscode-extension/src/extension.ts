@@ -104,7 +104,7 @@ async function setupServices(context: ExtensionContext) {
  * Starts language client and server
  */
 async function startLanguageClient(context: ExtensionContext): Promise<LanguageClient> {
-  const serverModule = context.asAbsolutePath(path.join("out", "language", "main.cjs"));
+  const serverModule = context.asAbsolutePath(path.join("dist", "language", "main.mjs"));
   // The debug options for the server
   // --inspect=6009: runs the server in Node's Inspector mode so VS Code can attach to the server for debugging.
   // By setting `process.env.DEBUG_BREAK` to a truthy value, the language server will wait until a debugger is attached.
@@ -127,6 +127,8 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
     documentSelector: [
       { scheme: "file", language: "crmscript" },
       { scheme: "file", language: "crmscript-definition" },
+      { scheme: "builtins", language: "crmscript" },
+      { scheme: "builtins", language: "crmscript-definition" },
     ],
   };
 
