@@ -20,15 +20,57 @@
     "publish:minor": "pnpm vsce publish minor --no-dependencies",
     "publish:patch": "pnpm vsce publish patch --no-dependencies"
   },
+  "dependencies": {
+    "crmscript-language": "workspace:*",
+    "langium": "~4.2.0",
+    "vscode-languageclient": "catalog:",
+    "vscode-languageserver": "catalog:"
+  },
   "devDependencies": {
     "@superoffice/webapi": "catalog:",
     "@types/mocha": "catalog:",
     "@types/node": "catalog:",
     "@types/uuid": "^9.0.5",
-    "@types/vscode": "1.107.0",
+    "@types/vscode": "catalog:",
     "uuid": "^9.0.1"
   },
   "contributes": {
+    "languages": [
+      {
+        "id": "crmscript",
+        "extensions": [
+          ".crmscript"
+        ],
+        "configuration": "./syntaxes/crmscript-language-configuration.json",
+        "icon": {
+          "light": "/resources/logo.svg",
+          "dark": "/resources/logo.svg"
+        }
+      },
+      {
+        "id": "crmscript-definition",
+        "extensions": [
+          ".crmscript-definition"
+        ],
+        "configuration": "./syntaxes/crmscript-language-configuration.json",
+        "icon": {
+          "light": "/resources/logo.svg",
+          "dark": "/resources/logo.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "crmscript",
+        "scopeName": "source.crmscript",
+        "path": "./syntaxes/crmscript.tmLanguage.json"
+      },
+      {
+        "language": "crmscript-definition",
+        "scopeName": "source.crmscript-definition",
+        "path": "./syntaxes/crmscript-definition.tmLanguage.json"
+      }
+    ],
     "commands": [
       {
         "command": "ejfasting.authenticate",
@@ -136,6 +178,7 @@
     }
   },
   "activationEvents": [
+    "onFileSystem:builtins",
     "onUri"
   ],
   "engines": {

@@ -1,0 +1,43 @@
+{
+  "name": "crmscript-language",
+  "version": "0.0.1",
+  "description": "The language specific package",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "dist/index"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "langium:generate": "langium generate",
+    "langium:watch": "langium generate --watch",
+    "bundle": "vp run langium:generate && vp pack --sourcemap"
+  },
+  "dependencies": {
+    "langium": "~4.2.0"
+  },
+  "devDependencies": {
+    "langium-cli": "~4.2.0",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "vscode-languageserver": "catalog:"
+  },
+  "engines": {
+    "node": ">=20.10.0",
+    "pnpm": ">=10.2.3"
+  }
+}
