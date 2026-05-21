@@ -1,5 +1,5 @@
 import { ExtensionContext } from "vscode";
-import { registerCommands } from "./contributes/commands.js";
+import { registerCommands } from "./contributes/commands";
 import { registerAuthenticationProvider } from "./contributes/authenticationProvider";
 import { FileSystemService } from "./services/fileSystemService";
 import { FileSystemHandler } from "./handlers/fileSystemHandler";
@@ -18,7 +18,7 @@ import {
   TransportKind,
 } from "vscode-languageclient/node.js";
 import * as path from "node:path";
-import { DslLibraryFileSystemProvider } from "./providers/dslLibraryFileSystemProvider.js";
+import { DslLibraryFileSystemProvider } from "./providers/dslLibraryFileSystemProvider";
 
 export let packagePublisher: string = "";
 export let webApi: WebApi | null = null;

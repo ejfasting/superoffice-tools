@@ -10,8 +10,8 @@ import {
   window,
   workspace,
 } from "vscode";
-import { IFileSystemHandler } from "../handlers/fileSystemHandler.js";
-import { ScmTextDocumentContentProvider } from "../providers/scmTextDocumentContentProvider.js";
+import { IFileSystemHandler } from "../handlers/fileSystemHandler";
+import { ScmTextDocumentContentProvider } from "../providers/scmTextDocumentContentProvider";
 
 export interface IScmService {
   initialize(): Promise<void>;
