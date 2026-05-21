@@ -6,8 +6,9 @@ export default defineConfig({
   },
   fmt: {
     ignorePatterns: [
-      "packages/language/syntaxes/*.tmLanguage.json",
+      "packages/langium-crmscript/syntaxes/*.tmLanguage.json",
       "packages/vscode-extension/syntaxes/*.tmLanguage.json",
+      "packages/langium-crmscript/src/generated/",
     ],
   },
   lint: {
@@ -158,6 +159,6 @@ export default defineConfig({
     },
   },
   test: {
-    include: ["packages/language/test/**/*.test.ts"],
+    include: ["packages/langium-crmscript/test/**/*.test.ts"],
   },
 });
