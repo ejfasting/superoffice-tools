@@ -1,6 +1,6 @@
 {
   "workspaces": [
-    "packages/language",
+    "packages/langium-crmscript",
     "packages/vscode-extension"
   ],
   "type": "module",
@@ -11,9 +11,9 @@
     "vscode:publish:minor": "pnpm -C ./packages/vscode-extension run publish:minor",
     "vscode:publish:patch": "pnpm -C ./packages/vscode-extension run publish:patch",
     "prepare": "vp config",
-    "langium:generate": "pnpm run -C ./packages/language langium:generate",
-    "langium:build": "pnpm run -C ./packages/language build",
-    "langium:bundle": "pnpm run -C ./packages/language bundle"
+    "langium:generate": "pnpm run -C ./packages/langium-crmscript langium:generate",
+    "langium:build": "pnpm run -C ./packages/langium-crmscript build",
+    "langium:bundle": "pnpm run -C ./packages/langium-crmscript bundle"
   },
   "devDependencies": {
     "@typescript/native-preview": "7.0.0-dev.20260115.1",
