@@ -1,11 +1,8 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "out",
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "test"],
-  "references": [{ "path": "../langium-crmscript" }]
+  "exclude": ["node_modules", "test"]
 }
