@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import {
   Cancellation,
   CstUtils,
@@ -227,14 +227,19 @@ describe("CrmscriptDocumentFactory", () => {
     expect(b?.$cstNode?.range.start).toEqual({ line: 2, character: 0 });
   });
 
-  describe("when expansion fails", async () => {
-    const { shared } = await createCrmscriptServices(EmptyFileSystem);
-    const unresolvingHost: IncludeHost = {
-      resolveIncludeName: () => undefined,
-      readContent: () => "",
-    };
-    const factory = new CrmscriptDocumentFactory(shared, unresolvingHost);
-    const uri = UriUtils.joinPath(ROOT, "failing.crmscript");
+  describe("when expansion fails", () => {
+    let factory: CrmscriptDocumentFactory;
+    let uri: ReturnType<typeof UriUtils.joinPath>;
+
+    beforeAll(async () => {
+      const { shared } = await createCrmscriptServices(EmptyFileSystem);
+      const unresolvingHost: IncludeHost = {
+        resolveIncludeName: () => undefined,
+        readContent: () => "",
+      };
+      factory = new CrmscriptDocumentFactory(shared, unresolvingHost);
+      uri = UriUtils.joinPath(ROOT, "failing.crmscript");
+    });
 
     function expectUnexpandedParse(document: LangiumDocument<ImplementationModel>) {
       expect(getIncludeExpansionError(document)).toBeInstanceOf(Error);

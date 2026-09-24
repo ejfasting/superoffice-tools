@@ -13,7 +13,7 @@ interface Directive {
  * closing delimiter is not treated as one.
  */
 function findDirectives(text: string): Directive[] {
-  const directiveRe = /[ \t]*#include[ \t]+"([^"]+)"[ \t]*;?[ \t]*(?=[\r\n]|$)/y;
+  const directiveRe = /[ \t]*#include[ \t]+"([^\r\n"]+)"[ \t]*;?[ \t]*(?=[\r\n]|$)/y;
   const directives: Directive[] = [];
   let i = 0;
   let atLineStart = true;
