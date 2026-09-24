@@ -9,10 +9,7 @@
   "type": "module",
   "sideEffects": false,
   "exports": {
-    "./includes": {
-      "types": "./types/includes.d.ts",
-      "default": "./src/includes.ts"
-    }
+    "./includes": "./src/includes.ts"
   },
   "publishConfig": {
     "exports": {
