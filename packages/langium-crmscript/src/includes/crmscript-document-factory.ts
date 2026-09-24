@@ -18,6 +18,7 @@ import { remapParseResult } from "./remap.js";
 
 const expansions = new WeakMap<AstNode, ExpandResult>();
 const expansionErrors = new WeakMap<AstNode, unknown>();
+const ASYNC_READ_MESSAGE = "returned a Promise; use expandIncludes() for asynchronous hosts";
 
 /**
  * Returns the include expansion that produced this document's AST, or `undefined` if the
@@ -58,6 +59,9 @@ export class CrmscriptDocumentFactory extends DefaultLangiumDocumentFactory {
     try {
       expansion = expandIncludesSync(text, uri.toString(), this.includeHost);
     } catch (error) {
+      if (isAsyncReadError(error)) {
+        throw error;
+      }
       failure = error;
     }
     if (!expansion || expansion.expanded === text) {
@@ -108,4 +112,8 @@ export class CrmscriptDocumentFactory extends DefaultLangiumDocumentFactory {
     }
     return result;
   }
+}
+
+function isAsyncReadError(error: unknown): boolean {
+  return error instanceof Error && error.message.includes(ASYNC_READ_MESSAGE);
 }

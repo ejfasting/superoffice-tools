@@ -229,10 +229,11 @@ describe("CrmscriptDocumentFactory", () => {
 
   describe("when expansion fails", () => {
     let factory: CrmscriptDocumentFactory;
+    let shared: Awaited<ReturnType<typeof createCrmscriptServices>>["shared"];
     let uri: ReturnType<typeof UriUtils.joinPath>;
 
     beforeAll(async () => {
-      const { shared } = await createCrmscriptServices(EmptyFileSystem);
+      ({ shared } = await createCrmscriptServices(EmptyFileSystem));
       const unresolvingHost: IncludeHost = {
         resolveIncludeName: () => undefined,
         readContent: () => "",
@@ -250,6 +251,17 @@ describe("CrmscriptDocumentFactory", () => {
 
     it("parses the unexpanded text on the sync path and records the error", () => {
       expectUnexpandedParse(factory.fromString<ImplementationModel>(SOURCE, uri));
+    });
+
+    it("throws on the sync path when include content requires async reads", () => {
+      const asyncHost: IncludeHost = {
+        resolveIncludeName: () => LIB_URI,
+        readContent: async () => VALID_CONTENT,
+      };
+      const asyncFactory = new CrmscriptDocumentFactory(shared, asyncHost);
+      expect(() => asyncFactory.fromString<ImplementationModel>(SOURCE, uri)).toThrow(
+        /returned a Promise; use expandIncludes\(\) for asynchronous hosts/,
+      );
     });
 
     it("parses the unexpanded text on the async path and records the error", async () => {
