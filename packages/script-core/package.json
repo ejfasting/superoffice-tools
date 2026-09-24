@@ -9,15 +9,18 @@
   "type": "module",
   "sideEffects": false,
   "exports": {
-    "./includes": {
-      "source": "./src/includes.ts",
-      "types": "./dist/includes.d.mts",
-      "import": "./dist/includes.mjs"
+    "./includes": "./src/includes.ts"
+  },
+  "publishConfig": {
+    "exports": {
+      "./includes": {
+        "types": "./dist/includes.d.mts",
+        "import": "./dist/includes.mjs"
+      }
     }
   },
   "scripts": {
-    "bundle": "vp pack --sourcemap",
-    "test": "vp check && vp test"
+    "bundle": "vp pack --sourcemap"
   },
   "devDependencies": {
     "typescript": "catalog:",

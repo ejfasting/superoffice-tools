@@ -4,6 +4,8 @@ packages:
 catalogs:
   default:
     "@superoffice/webapi": 11.7.727
+    langium: ~4.4.0
+    langium-cli: ~4.4.0
     vite: npm:@voidzero-dev/vite-plus-core@0.1.21
     vitest: npm:@voidzero-dev/vite-plus-test@0.1.21
     vite-plus: 0.1.21

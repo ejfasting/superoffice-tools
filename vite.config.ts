@@ -1,11 +1,6 @@
 import { defineConfig } from "vite-plus";
 
 export default defineConfig({
-  ssr: {
-    resolve: {
-      conditions: ["source", "node", "development|production"],
-    },
-  },
   staged: {
     "*": "vp check --fix",
   },
@@ -164,9 +159,6 @@ export default defineConfig({
     },
   },
   test: {
-    include: [
-      "packages/langium-crmscript/test/**/*.test.ts",
-      "packages/script-core/test/**/*.test.ts",
-    ],
+    include: ["packages/*/test/**/*.test.ts"],
   },
 });

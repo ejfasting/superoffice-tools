@@ -12,7 +12,7 @@ import { expandIncludes } from "@ejfasting/script-core/includes";
 
 As more functionality is added, it should follow the same pattern: a new file under `src/`, its own entry in `vite.config.ts`'s `pack` array, and its own subpath in `package.json`'s `exports`.
 
-Each subpath also has a `source` condition pointing at its TypeScript file. The root `tsconfig.json` (`customConditions`) and the root `vite.config.ts` (`ssr.resolve.conditions`) resolve it, so type-checking and tests in dependent packages use `src/` directly and do not require `dist` to be built. Bundlers and Node use the `import` condition.
+Inside this repository the package is consumed as an internal package: `exports` point directly at the TypeScript files in `src/`, which TypeScript, Vitest and the bundler all read as-is. Nothing needs to be built before type-checking, testing or bundling a dependent package. When the package is packed or published, `publishConfig.exports` replaces `exports` with the compiled output in `dist`.
 
 ## What's in the folder?
 
@@ -36,4 +36,5 @@ The result contains the expanded text plus `segments`, a source map from expande
 ## Scripts
 
 - `pnpm run bundle` - Builds the publishable output into `dist` via `vp pack`.
-- `pnpm run test` - Runs `vp check` (format/lint/type-check) and `vp test` (unit tests).
+
+Tests, formatting, linting and type checks run from the repository root with `vp test` and `vp check`.

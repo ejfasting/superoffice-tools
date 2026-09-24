@@ -20,19 +20,17 @@
     "publish:minor": "pnpm vsce publish minor --no-dependencies",
     "publish:patch": "pnpm vsce publish patch --no-dependencies"
   },
-  "dependencies": {
-    "crmscript-language": "workspace:*",
-    "langium": "~4.4.0",
-    "vscode-languageclient": "catalog:",
-    "vscode-languageserver": "catalog:"
-  },
   "devDependencies": {
     "@superoffice/webapi": "catalog:",
     "@types/mocha": "catalog:",
     "@types/node": "catalog:",
     "@types/uuid": "^9.0.5",
     "@types/vscode": "catalog:",
-    "uuid": "^9.0.1"
+    "crmscript-language": "workspace:*",
+    "langium": "catalog:",
+    "uuid": "^9.0.1",
+    "vscode-languageclient": "catalog:",
+    "vscode-languageserver": "catalog:"
   },
   "contributes": {
     "languages": [
