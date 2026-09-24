@@ -84,6 +84,22 @@ importers:
         version: '@voidzero-dev/vite-plus-test@0.1.24(@types/node@22.18.0)(typescript@5.8.3)(vite@8.0.13(@types/node@22.18.0))'
 
   packages/vscode-extension:
+    dependencies:
+      crmscript-language:
+        specifier: workspace:*
+        version: link:../langium-crmscript
+      langium:
+        specifier: 'catalog:'
+        version: 4.4.0
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+      vscode-languageclient:
+        specifier: 'catalog:'
+        version: 10.1.1
+      vscode-languageserver:
+        specifier: 'catalog:'
+        version: 10.1.1
     devDependencies:
       '@superoffice/webapi':
         specifier: 'catalog:'
@@ -100,21 +116,6 @@ importers:
       '@types/vscode':
         specifier: 'catalog:'
         version: 1.107.0
-      crmscript-language:
-        specifier: workspace:*
-        version: link:../langium-crmscript
-      langium:
-        specifier: 'catalog:'
-        version: 4.4.0
-      uuid:
-        specifier: ^9.0.1
-        version: 9.0.1
-      vscode-languageclient:
-        specifier: 'catalog:'
-        version: 10.1.1
-      vscode-languageserver:
-        specifier: 'catalog:'
-        version: 10.1.1
 
 packages:
 
