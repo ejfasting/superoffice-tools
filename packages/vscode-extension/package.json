@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "crmscript-language": "workspace:*",
-    "langium": "~4.2.0",
+    "langium": "~4.4.0",
     "vscode-languageclient": "catalog:",
     "vscode-languageserver": "catalog:"
   },

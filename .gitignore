@@ -144,4 +144,4 @@ vite.config.ts.timestamp-*
 test-workspace/
 
 packages/vscode-extension/*.vsix
-packages/language/src/generated/
+packages/langium-crmscript/src/generated/

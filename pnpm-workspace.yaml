@@ -7,8 +7,8 @@ catalogs:
     vite: npm:@voidzero-dev/vite-plus-core@0.1.21
     vitest: npm:@voidzero-dev/vite-plus-test@0.1.21
     vite-plus: 0.1.21
-    vscode-languageserver: 9.0.1
-    vscode-languageclient: 9.0.1
+    vscode-languageserver: 10.1.1
+    vscode-languageclient: 10.1.1
     "@types/node": 22.18.0
     "@types/mocha": 10.0.10
     "@types/vscode": 1.107.0

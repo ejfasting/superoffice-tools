@@ -10,7 +10,7 @@
     },
     {
       "name": "keyword.control.crmscript-definition",
-      "match": "\\b(class|constructor|enum)\\b"
+      "match": "\\b(constructor|class|enum)\\b"
     },
     {
       "name": "string.quoted.double.crmscript-definition",
