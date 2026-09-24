@@ -10,8 +10,11 @@ export const INCLUDE_MAPPING_PATH = ".superoffice/include-mapping.json";
 
 /**
  * Resolves `#include` directives against {@link INCLUDE_MAPPING_PATH} in the workspace root.
- * The mapping is loaded once and cached; edits to the file are picked up through Langium's
- * workspace file watcher, which watches every file in the workspace.
+ * The mapping is loaded once (synchronously, since `resolveIncludeName` is synchronous) and
+ * cached; edits to the file are picked up through Langium's workspace file watcher, which
+ * watches every file in the workspace. Reading an include's own content, which can be much
+ * larger and live on a network drive, stays asynchronous so it never blocks the language
+ * server's event loop.
  *
  * `services` is only read lazily (at first use, not in the constructor): `WorkspaceManager`
  * depends on `LangiumDocuments`, which depends on `LangiumDocumentFactory`, which constructs
@@ -21,36 +24,26 @@ export const INCLUDE_MAPPING_PATH = ".superoffice/include-mapping.json";
  */
 export class WorkspaceIncludeHost implements IncludeHost {
   private mapping: Map<string, URI> | undefined;
-  private loading: Promise<void> | undefined;
   private watching = false;
 
   constructor(private readonly services: LangiumSharedServices) {}
 
-  /**
-   * Loads the include mapping if it hasn't been loaded yet, or if it was invalidated by a
-   * change to {@link INCLUDE_MAPPING_PATH}. Callers must await this before relying on
-   * {@link resolveIncludeName}, which is synchronous.
-   */
-  whenReady(): Promise<void> {
-    this.loading ??= this.load();
-    return this.loading;
-  }
-
   resolveIncludeName(name: string): string | undefined {
-    return this.mapping?.get(name)?.toString();
+    this.mapping ??= this.loadMapping();
+    return this.mapping.get(name)?.toString();
   }
 
   readContent(location: string): Promise<string> {
     return this.services.workspace.FileSystemProvider.readFile(URI.parse(location));
   }
 
-  private async load(): Promise<void> {
+  private loadMapping(): Map<string, URI> {
     this.watchForMappingChanges();
     const mapping = new Map<string, URI>();
     const root = this.getWorkspaceRoot();
     if (root) {
       try {
-        const raw = await this.services.workspace.FileSystemProvider.readFile(
+        const raw = this.services.workspace.FileSystemProvider.readFileSync(
           UriUtils.joinPath(root, INCLUDE_MAPPING_PATH),
         );
         const entries = JSON.parse(raw) as Record<string, string>;
@@ -61,7 +54,7 @@ export class WorkspaceIncludeHost implements IncludeHost {
         // No mapping file yet, or it isn't valid JSON: treat as an empty mapping.
       }
     }
-    this.mapping = mapping;
+    return mapping;
   }
 
   private watchForMappingChanges(): void {
@@ -70,16 +63,14 @@ export class WorkspaceIncludeHost implements IncludeHost {
     this.services.lsp.DocumentUpdateHandler.onWatchedFilesChange((params) => {
       if (params.changes.some((change) => change.uri.endsWith(INCLUDE_MAPPING_PATH))) {
         this.mapping = undefined;
-        this.loading = undefined;
       }
     });
   }
 
   private getWorkspaceRoot(): URI | undefined {
     // `workspaceFolders` is populated by `WorkspaceManager.initialize`, which always runs
-    // before the initial workspace scan (`initializeWorkspace`, tracked by `ready`) starts.
-    // Awaiting `ready` here would deadlock: that scan parses the workspace's documents, which
-    // wait on `whenReady()` to resolve includes, before `ready` itself can resolve.
+    // before the initial workspace scan (`initializeWorkspace`, tracked by `ready`) starts, so
+    // this is available well before any document is parsed.
     const folder = this.services.workspace.WorkspaceManager.workspaceFolders?.[0];
     return folder ? URI.parse(folder.uri) : undefined;
   }

@@ -27,7 +27,6 @@ describe("WorkspaceIncludeHost", () => {
       ...mappingFile({ lib: "scripts/lib.crmscript" }),
       [libUri.toString()]: "Company c; c.load(2);",
     });
-    await host.whenReady();
 
     const location = host.resolveIncludeName("lib");
     expect(location).toBe(libUri.toString());
@@ -40,7 +39,6 @@ describe("WorkspaceIncludeHost", () => {
       [UriUtils.joinPath(ROOT, "a.crmscript").toString()]: "A",
       [UriUtils.joinPath(ROOT, "nested/b.tsfso").toString()]: "B",
     });
-    await host.whenReady();
 
     await expect(host.readContent(host.resolveIncludeName("a")!)).resolves.toBe("A");
     await expect(host.readContent(host.resolveIncludeName("b")!)).resolves.toBe("B");
@@ -48,14 +46,12 @@ describe("WorkspaceIncludeHost", () => {
 
   it("returns undefined for a name that is not in the mapping", async () => {
     const { host } = await createHost(mappingFile({ lib: "scripts/lib.crmscript" }));
-    await host.whenReady();
 
     expect(host.resolveIncludeName("missing")).toBeUndefined();
   });
 
   it("treats a missing mapping file as an empty mapping", async () => {
     const { host } = await createHost();
-    await host.whenReady();
 
     expect(host.resolveIncludeName("lib")).toBeUndefined();
   });
@@ -64,7 +60,6 @@ describe("WorkspaceIncludeHost", () => {
     const { host } = await createHost({
       [UriUtils.joinPath(ROOT, INCLUDE_MAPPING_PATH).toString()]: "not json",
     });
-    await host.whenReady();
 
     expect(host.resolveIncludeName("lib")).toBeUndefined();
   });
@@ -72,10 +67,10 @@ describe("WorkspaceIncludeHost", () => {
   it("loads the mapping only once across repeated calls", async () => {
     const { host, store } = await createHost(mappingFile({ lib: "scripts/lib.crmscript" }));
 
-    await host.whenReady();
+    host.resolveIncludeName("lib"); // triggers the load, caching the result
     store.set(UriUtils.joinPath(ROOT, INCLUDE_MAPPING_PATH).toString(), JSON.stringify({}));
-    await host.whenReady();
 
+    // Still reflects the mapping at load time; the store change alone doesn't invalidate it.
     expect(host.resolveIncludeName("lib")).toBe(
       UriUtils.joinPath(ROOT, "scripts/lib.crmscript").toString(),
     );
@@ -83,7 +78,6 @@ describe("WorkspaceIncludeHost", () => {
 
   it("reloads the mapping when the mapping file changes on disk", async () => {
     const { host, store, shared } = await createHost(mappingFile({ lib: "scripts/lib.crmscript" }));
-    await host.whenReady();
     expect(host.resolveIncludeName("lib")).toBeDefined();
 
     store.set(UriUtils.joinPath(ROOT, INCLUDE_MAPPING_PATH).toString(), JSON.stringify({}));
@@ -95,14 +89,12 @@ describe("WorkspaceIncludeHost", () => {
         },
       ],
     });
-    await host.whenReady();
 
     expect(host.resolveIncludeName("lib")).toBeUndefined();
   });
 
   it("ignores changes to files other than the mapping file", async () => {
     const { host, store, shared } = await createHost(mappingFile({ lib: "scripts/lib.crmscript" }));
-    await host.whenReady();
     const before = host.resolveIncludeName("lib");
 
     store.set(UriUtils.joinPath(ROOT, INCLUDE_MAPPING_PATH).toString(), JSON.stringify({}));
