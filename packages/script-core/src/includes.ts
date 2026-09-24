@@ -13,18 +13,16 @@ interface Directive {
  * closing delimiter is not treated as one.
  */
 function findDirectives(text: string): Directive[] {
-  const directiveRe = /[ \t]*#include[ \t]+"([^\r\n"]+)"[ \t]*;?[ \t]*(?=[\r\n]|$)/y;
   const directives: Directive[] = [];
   let i = 0;
   let atLineStart = true;
   while (i < text.length) {
     if (atLineStart) {
       atLineStart = false;
-      directiveRe.lastIndex = i;
-      const match = directiveRe.exec(text);
-      if (match) {
-        directives.push({ name: match[1], start: i, end: directiveRe.lastIndex });
-        i = directiveRe.lastIndex;
+      const directive = parseDirectiveAtLineStart(text, i);
+      if (directive) {
+        directives.push(directive);
+        i = directive.end;
         continue;
       }
     }
@@ -46,6 +44,30 @@ function findDirectives(text: string): Directive[] {
     i = skipTo < 0 ? i + 1 : skipTo;
   }
   return directives;
+}
+
+function parseDirectiveAtLineStart(text: string, start: number): Directive | undefined {
+  let i = start;
+  while (text[i] === " " || text[i] === "\t") i++;
+  if (!text.startsWith("#include", i)) return undefined;
+  i += "#include".length;
+
+  while (text[i] === " " || text[i] === "\t") i++;
+  if (text[i] !== '"') return undefined;
+  i++;
+  const nameStart = i;
+
+  while (i < text.length && text[i] !== '"' && text[i] !== "\r" && text[i] !== "\n") i++;
+  if (text[i] !== '"' || i === nameStart) return undefined;
+  const name = text.slice(nameStart, i);
+  i++;
+
+  while (text[i] === " " || text[i] === "\t") i++;
+  if (text[i] === ";") i++;
+  while (text[i] === " " || text[i] === "\t") i++;
+
+  if (i < text.length && text[i] !== "\r" && text[i] !== "\n") return undefined;
+  return { name, start, end: i };
 }
 
 function indexOfLineEnd(text: string, from: number): number {
