@@ -10,6 +10,14 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    }
+  },
   "scripts": {
     "langium:generate": "langium generate",
     "langium:watch": "langium generate --watch",

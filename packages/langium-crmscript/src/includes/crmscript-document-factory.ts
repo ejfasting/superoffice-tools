@@ -20,6 +20,18 @@ const expansions = new WeakMap<AstNode, ExpandResult>();
 const expansionErrors = new WeakMap<AstNode, unknown>();
 
 /**
+ * An {@link IncludeHost} that needs to load state asynchronously before {@link IncludeHost.resolveIncludeName}
+ * can be relied on. This is a local, optional protocol: `IncludeHost` itself stays host-agnostic.
+ */
+interface AsyncWarmableIncludeHost extends IncludeHost {
+  whenReady(): Promise<void>;
+}
+
+function hasWhenReady(host: IncludeHost): host is AsyncWarmableIncludeHost {
+  return typeof (host as Partial<AsyncWarmableIncludeHost>).whenReady === "function";
+}
+
+/**
  * Returns the include expansion that produced this document's AST, or `undefined` if the
  * document contained no includes or expansion failed.
  */
@@ -73,6 +85,9 @@ export class CrmscriptDocumentFactory extends DefaultLangiumDocumentFactory {
     text: string,
     cancellationToken: Cancellation.CancellationToken,
   ): Promise<ParseResult<T>> {
+    if (hasWhenReady(this.includeHost)) {
+      await this.includeHost.whenReady();
+    }
     let expansion: ExpandResult | undefined;
     let failure: unknown;
     try {
