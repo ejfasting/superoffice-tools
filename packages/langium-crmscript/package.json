@@ -7,19 +7,18 @@
     "src"
   ],
   "type": "module",
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "typesVersions": {
-    "*": {
-      ".": [
-        "dist/index"
-      ]
-    }
-  },
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs"
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
     }
   },
   "scripts": {
@@ -28,10 +27,11 @@
     "bundle": "vp run langium:generate && vp pack --sourcemap"
   },
   "dependencies": {
-    "langium": "~4.2.0"
+    "@ejfasting/script-core": "workspace:*",
+    "langium": "catalog:"
   },
   "devDependencies": {
-    "langium-cli": "~4.2.0",
+    "langium-cli": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
     "vscode-languageserver": "catalog:"

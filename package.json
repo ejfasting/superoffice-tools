@@ -1,8 +1,4 @@
 {
-  "workspaces": [
-    "packages/langium-crmscript",
-    "packages/vscode-extension"
-  ],
   "type": "module",
   "scripts": {
     "vscode:bundle": "pnpm run -C ./packages/vscode-extension bundle",
@@ -12,7 +8,6 @@
     "vscode:publish:patch": "pnpm -C ./packages/vscode-extension run publish:patch",
     "prepare": "vp config",
     "langium:generate": "pnpm run -C ./packages/langium-crmscript langium:generate",
-    "langium:build": "pnpm run -C ./packages/langium-crmscript build",
     "langium:bundle": "pnpm run -C ./packages/langium-crmscript bundle"
   },
   "devDependencies": {

@@ -159,6 +159,6 @@ export default defineConfig({
     },
   },
   test: {
-    include: ["packages/langium-crmscript/test/**/*.test.ts"],
+    include: ["packages/*/test/**/*.test.ts"],
   },
 });

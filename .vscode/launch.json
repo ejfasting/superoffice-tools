@@ -17,9 +17,10 @@
       ],
       "outFiles": [
         "${workspaceFolder}/packages/vscode-extension/dist/**/*.js",
-        "${workspaceFolder}/packages/language/dist/**/*.mjs"
+        "${workspaceFolder}/packages/vscode-extension/dist/**/*.mjs"
       ],
-      "preLaunchTask": "watch"
+      "preLaunchTask": "watch",
+      "autoAttachChildProcesses": true
     }
   ]
 }

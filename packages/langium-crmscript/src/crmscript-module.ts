@@ -14,6 +14,8 @@ import {
 } from "./generated/module.js";
 import { CrmscriptValidator, registerValidationChecks } from "./crmscript-validator.js";
 import { CrmscriptWorkspaceManager } from "./builtin/workspaceManager.js";
+import { CrmscriptDocumentFactory } from "./includes/crmscript-document-factory.js";
+import { WorkspaceIncludeHost } from "./includes/workspace-include-host.js";
 export type CrmscriptSharedServices = LangiumSharedServices;
 
 const CrmscriptSharedModule: Module<
@@ -23,6 +25,8 @@ const CrmscriptSharedModule: Module<
   workspace: {
     WorkspaceManager: (services: LangiumSharedCoreServices) =>
       new CrmscriptWorkspaceManager(services),
+    LangiumDocumentFactory: (services: LangiumSharedServices) =>
+      new CrmscriptDocumentFactory(services, new WorkspaceIncludeHost(services)),
   },
 };
 

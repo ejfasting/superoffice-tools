@@ -1,0 +1,29 @@
+{
+  "name": "@ejfasting/script-core",
+  "version": "0.1.0",
+  "description": "Core, framework-agnostic building blocks for working with SuperOffice CRMScript files.",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./includes": "./src/includes.ts"
+  },
+  "publishConfig": {
+    "exports": {
+      "./includes": {
+        "types": "./dist/includes.d.mts",
+        "import": "./dist/includes.mjs"
+      }
+    }
+  },
+  "scripts": {
+    "bundle": "vp pack --sourcemap"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

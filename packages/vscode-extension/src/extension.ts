@@ -16,7 +16,7 @@ import {
   LanguageClientOptions,
   ServerOptions,
   TransportKind,
-} from "vscode-languageclient/node.js";
+} from "vscode-languageclient/node";
 import * as path from "node:path";
 import { DslLibraryFileSystemProvider } from "./providers/dslLibraryFileSystemProvider";
 

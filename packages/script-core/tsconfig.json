@@ -1,6 +1,5 @@
 // this file is required for VSCode to work properly
 {
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "test"]
+  "include": ["src/**/*"]
 }

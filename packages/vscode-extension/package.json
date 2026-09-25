@@ -22,7 +22,8 @@
   },
   "dependencies": {
     "crmscript-language": "workspace:*",
-    "langium": "~4.2.0",
+    "langium": "catalog:",
+    "uuid": "^9.0.1",
     "vscode-languageclient": "catalog:",
     "vscode-languageserver": "catalog:"
   },
@@ -31,8 +32,7 @@
     "@types/mocha": "catalog:",
     "@types/node": "catalog:",
     "@types/uuid": "^9.0.5",
-    "@types/vscode": "catalog:",
-    "uuid": "^9.0.1"
+    "@types/vscode": "catalog:"
   },
   "contributes": {
     "languages": [
